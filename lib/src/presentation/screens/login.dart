@@ -11,7 +11,16 @@ class LoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(authProvider);
+    final auth = ref.watch(authProvider);
+    ref.listen(authProvider, (_, state) {
+      if (state is AsyncError) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(state.error.toString()),
+        ));
+      } else if (state is AsyncData && state.value != "") {
+        GoRouter.of(context).go("/");
+      }
+    });
     return Form(
       key: _formKey,
       child: Scaffold(
@@ -49,22 +58,15 @@ class LoginScreen extends ConsumerWidget {
               ),
               SizedBox(height: 10),
               ElevatedButton(
-                onPressed: () async {
+                onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    await ref.read(authProvider.notifier).login({
+                    ref.read(authProvider.notifier).login({
                       "username": _usernameController.text,
                       "password": _passwordController.text,
                     });
-                    if (authState["error"]) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text("Failed to login"),
-                      ));
-                    } else {
-                      context.go("/");
-                    }
                   }
                 },
-                child: Text("Login"),
+                child: auth.isLoading ? CircularProgressIndicator() : Text("Login"),
               ),
             ],
           ),

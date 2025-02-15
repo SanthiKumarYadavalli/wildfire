@@ -8,24 +8,18 @@ final AuthRepository authRepository = AuthRepository();
 @riverpod
 class Auth extends _$Auth {
   @override
-  Map<String, dynamic> build() {
-    return {
-      "token": "",
-      "error": false,
-    };
+  FutureOr<String> build() {
+    return "";
   }
 
   Future<void> login(Map<String, dynamic> formData) async {
-    state["error"] = false;
-    try {
-      final token = await authRepository.login(formData);
-      state["token"] = token;
-    } catch (e) {
-      state["error"] = true;
-    }
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      return await authRepository.login(formData);
+    });
   }
 
   void logout() {
-    state["token"] = "";
+    state = AsyncValue.data("");
   }
 }

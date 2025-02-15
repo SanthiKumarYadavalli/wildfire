@@ -8,7 +8,6 @@ part 'app_router.g.dart';
 
 @riverpod
 GoRouter router(ref) {
-  final authState = ref.watch(authProvider);
   return GoRouter(initialLocation: '/', routes: [
     GoRoute(
       path: "/login",
@@ -18,7 +17,8 @@ GoRouter router(ref) {
       path: '/',
       builder: (context, state) => HomeScreen(),
       redirect: (context, state) {
-        if (authState["token"] == "") {
+        final token = ref.read(authProvider);
+        if (token.value == "") {
           return "/login";
         }
         return null;
