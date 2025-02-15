@@ -6,10 +6,12 @@ import 'package:wildfire/src/providers/auth_provider.dart';
 class LoginScreen extends ConsumerWidget {
   LoginScreen({super.key});
   final _formKey = GlobalKey<FormState>();
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(authProvider);
+    final authState = ref.watch(authProvider);
     return Form(
       key: _formKey,
       child: Scaffold(
@@ -24,12 +26,13 @@ class LoginScreen extends ConsumerWidget {
               ),
               SizedBox(height: 50),
               TextFormField(
+                controller: _usernameController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: "username or email",
+                  hintText: "Username or Email",
                 ),
                 validator: (value) {
-                  if (value == null) {
+                  if (value == null || value.isEmpty) {
                     return "enter some text";
                   }
                   return null;
@@ -37,6 +40,7 @@ class LoginScreen extends ConsumerWidget {
               ),
               SizedBox(height: 10),
               TextFormField(
+                controller: _passwordController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Password",
@@ -45,9 +49,20 @@ class LoginScreen extends ConsumerWidget {
               ),
               SizedBox(height: 10),
               ElevatedButton(
-                onPressed: () {
-                  ref.read(authProvider.notifier).login();
-                  context.go("/");
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    await ref.read(authProvider.notifier).login({
+                      "username": _usernameController.text,
+                      "password": _passwordController.text,
+                    });
+                    if (authState["error"]) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text("Failed to login"),
+                      ));
+                    } else {
+                      context.go("/");
+                    }
+                  }
                 },
                 child: Text("Login"),
               ),
