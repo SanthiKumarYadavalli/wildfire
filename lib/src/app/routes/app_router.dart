@@ -8,7 +8,8 @@ part 'app_router.g.dart';
 
 @riverpod
 GoRouter router(ref) {
-  return GoRouter(initialLocation: '/', routes: [
+  final AsyncValue<String> auth = ref.watch(authProvider);
+  return GoRouter(routes: [
     GoRoute(
       path: "/login",
       builder: (context, state) => LoginScreen(),
@@ -17,12 +18,12 @@ GoRouter router(ref) {
       path: '/',
       builder: (context, state) => HomeScreen(),
       redirect: (context, state) {
-        final token = ref.read(authProvider);
-        if (token.value == "") {
-          return "/login";
-        }
+      if (auth is AsyncData && auth.value != "") {
         return null;
-      },
-    )
-  ]);
+      }
+      return '/login';
+    }
+    ),
+  ],
+  );
 }

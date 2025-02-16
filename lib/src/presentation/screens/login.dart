@@ -18,7 +18,7 @@ class LoginScreen extends ConsumerWidget {
           content: Text(state.error.toString()),
         ));
       } else if (state is AsyncData && state.value != "") {
-        GoRouter.of(context).go("/");
+        context.go("/");
       }
     });
     return Form(
