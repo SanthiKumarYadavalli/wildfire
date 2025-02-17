@@ -21,8 +21,15 @@ class HomeScreen extends ConsumerWidget {
           )
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print("Added a new habit!");
+        },
+        tooltip: "Add a new habit",
+        child: Icon(Icons.add),
+      ),
       body: Center(
-        child: Text("Welcome!")
+        child: Text("Add a habit!")
       ),
     );
   }
