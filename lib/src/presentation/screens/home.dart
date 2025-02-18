@@ -1,22 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wildfire/src/providers/auth_provider.dart';
+import 'package:wildfire/src/providers/user_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
   
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(currUserProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text("Wildfire"),
         actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              ref.read(authProvider.notifier).logout();
-              context.go("/login");
+          MenuAnchor(
+            menuChildren: [
+              MenuItemButton(
+                onPressed: () => ref.read(authProvider.notifier).logout(),
+                leadingIcon: Icon(Icons.logout),
+                child: Text("Logout"),
+              )
+            ],
+            builder: (context, controller, child) {
+              return user.when(
+                data: (data) {
+                  return IconButton(
+                    icon: CircleAvatar(
+                      backgroundImage: NetworkImage(data!.profileImageUrl),
+                    ),
+                    onPressed: () {
+                      if (controller.isOpen) {
+                        controller.close();
+                      } else {
+                        controller.open();
+                      }
+                    }
+                  );
+                },
+                loading: () => CircularProgressIndicator(),
+                error: (error, stackTrace) => Icon(Icons.error),
+              );
             },
           )
         ],
@@ -29,7 +52,11 @@ class HomeScreen extends ConsumerWidget {
         child: Icon(Icons.add),
       ),
       body: Center(
-        child: Text("Add a habit!")
+        child: user.when(
+          data: (data) => Text("Hello ${data!.name}! 👋", style: TextStyle(fontSize: 20)),
+          loading: () => CircularProgressIndicator(),
+          error: (error, stackTrace) => Text("Error: $error"),
+        )
       ),
     );
   }
