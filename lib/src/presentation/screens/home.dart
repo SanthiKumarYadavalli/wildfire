@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wildfire/src/providers/auth_provider.dart';
+import 'package:wildfire/src/providers/habit_provider.dart';
 import 'package:wildfire/src/providers/user_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -9,6 +10,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(currUserProvider);
+    final habits = ref.watch(userHabitsProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text("Wildfire"),
@@ -52,8 +54,18 @@ class HomeScreen extends ConsumerWidget {
         child: Icon(Icons.add),
       ),
       body: Center(
-        child: user.when(
-          data: (data) => Text("Hello ${data!.name}! 👋", style: TextStyle(fontSize: 20)),
+        child: habits.when(
+          data: (data) {
+            return ListView.builder(
+              itemCount: data!.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(data[index]!.title),
+                  subtitle: Text(data[index]!.description),
+                );
+              },
+            );
+          },
           loading: () => CircularProgressIndicator(),
           error: (error, stackTrace) => Text("Error: $error"),
         )

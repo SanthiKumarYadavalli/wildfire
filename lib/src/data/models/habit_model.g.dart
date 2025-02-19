@@ -10,7 +10,7 @@ _$HabitImpl _$$HabitImplFromJson(Map<String, dynamic> json) => _$HabitImpl(
       id: json['id'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
-      createdBy: User.fromJson(json['createdBy'] as Map<String, dynamic>),
+      createdBy: json['createdBy'] as String,
     );
 
 Map<String, dynamic> _$$HabitImplToJson(_$HabitImpl instance) =>

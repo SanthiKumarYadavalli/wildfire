@@ -23,7 +23,7 @@ mixin _$Habit {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  User get createdBy => throw _privateConstructorUsedError;
+  String get createdBy => throw _privateConstructorUsedError;
 
   /// Serializes this Habit to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,9 +39,7 @@ abstract class $HabitCopyWith<$Res> {
   factory $HabitCopyWith(Habit value, $Res Function(Habit) then) =
       _$HabitCopyWithImpl<$Res, Habit>;
   @useResult
-  $Res call({String id, String title, String description, User createdBy});
-
-  $UserCopyWith<$Res> get createdBy;
+  $Res call({String id, String title, String description, String createdBy});
 }
 
 /// @nodoc
@@ -80,18 +78,8 @@ class _$HabitCopyWithImpl<$Res, $Val extends Habit>
       createdBy: null == createdBy
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
-              as User,
+              as String,
     ) as $Val);
-  }
-
-  /// Create a copy of Habit
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $UserCopyWith<$Res> get createdBy {
-    return $UserCopyWith<$Res>(_value.createdBy, (value) {
-      return _then(_value.copyWith(createdBy: value) as $Val);
-    });
   }
 }
 
@@ -102,10 +90,7 @@ abstract class _$$HabitImplCopyWith<$Res> implements $HabitCopyWith<$Res> {
       __$$HabitImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String title, String description, User createdBy});
-
-  @override
-  $UserCopyWith<$Res> get createdBy;
+  $Res call({String id, String title, String description, String createdBy});
 }
 
 /// @nodoc
@@ -142,7 +127,7 @@ class __$$HabitImplCopyWithImpl<$Res>
       createdBy: null == createdBy
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
-              as User,
+              as String,
     ));
   }
 }
@@ -166,7 +151,7 @@ class _$HabitImpl implements _Habit {
   @override
   final String description;
   @override
-  final User createdBy;
+  final String createdBy;
 
   @override
   String toString() {
@@ -212,7 +197,7 @@ abstract class _Habit implements Habit {
       {required final String id,
       required final String title,
       required final String description,
-      required final User createdBy}) = _$HabitImpl;
+      required final String createdBy}) = _$HabitImpl;
 
   factory _Habit.fromJson(Map<String, dynamic> json) = _$HabitImpl.fromJson;
 
@@ -223,7 +208,7 @@ abstract class _Habit implements Habit {
   @override
   String get description;
   @override
-  User get createdBy;
+  String get createdBy;
 
   /// Create a copy of Habit
   /// with the given fields replaced by the non-null parameter values.

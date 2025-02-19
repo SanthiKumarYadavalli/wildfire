@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:wildfire/src/data/models/user_model.dart';
 
 part 'habit_model.freezed.dart';
 part 'habit_model.g.dart';
@@ -10,7 +9,7 @@ class Habit with _$Habit {
     required String id,
     required String title,
     required String description,
-    required User createdBy,
+    required String createdBy,
   }) = _Habit;
 
   factory Habit.fromJson(Map<String, dynamic> json) => _$HabitFromJson(json);
