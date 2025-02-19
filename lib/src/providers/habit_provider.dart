@@ -10,14 +10,26 @@ part 'habit_provider.g.dart';
 class UserHabits extends _$UserHabits {
   final HabitRepository _habitRepository = HabitRepository();
   @override
-  FutureOr<List<Habit?>?> build() async {
+  FutureOr<List<Habit>?> build() async {
     final token = ref.read(authProvider).requireValue;
     if (token != '') {
       final Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
       final habits = await _habitRepository.getHabits(decodedToken['id']);
-      print(habits);
       return habits;
     }
     return null;
+  }
+
+  void createHabit(title, description) async {
+    final token = ref.read(authProvider).requireValue;
+    final prevState = state.value;
+    state = AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      final newHabit = await _habitRepository.createHabit(token, {
+        'title': title,
+        'description': description,
+      });
+      return [...prevState!, newHabit];
+    });
   }
 }
