@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wildfire/src/providers/auth_provider.dart';
 import 'package:wildfire/src/providers/habit_provider.dart';
 import 'package:wildfire/src/providers/user_provider.dart';
@@ -48,7 +49,7 @@ class HomeScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print("Added a new habit!");
+          context.push("/create-habit");
         },
         tooltip: "Add a new habit",
         child: Icon(Icons.add),
@@ -56,8 +57,11 @@ class HomeScreen extends ConsumerWidget {
       body: Center(
         child: habits.when(
           data: (data) {
+            if (data!.isEmpty) {
+              return Text("Add a new habit!");
+            }
             return ListView.builder(
-              itemCount: data!.length,
+              itemCount: data.length,
               itemBuilder: (context, index) {
                 return ListTile(
                   title: Text(data[index]!.title),
