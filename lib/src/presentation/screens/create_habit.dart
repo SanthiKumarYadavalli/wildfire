@@ -29,6 +29,11 @@ class CreateHabitScreen extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text("Create a New Habit", style: TextStyle(
+              fontSize: Theme.of(context).textTheme.headlineSmall!.fontSize,
+              fontWeight: Theme.of(context).textTheme.headlineSmall!.fontWeight,
+            )),
+            SizedBox(height: 30),
             TextField(
               controller: _titleController,
               decoration: InputDecoration(
@@ -51,6 +56,10 @@ class CreateHabitScreen extends ConsumerWidget {
             Align(
               alignment: Alignment.centerRight,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                ),
                 onPressed: () {
                   ref.read(userHabitsProvider.notifier).createHabit(
                         _titleController.text,
