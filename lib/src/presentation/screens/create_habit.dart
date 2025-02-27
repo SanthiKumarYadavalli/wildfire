@@ -21,13 +21,12 @@ class CreateHabitScreen extends ConsumerWidget {
         context.pop();
       }
     });
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Create Habit"),
-      ),
-      body: Container(
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: Container(
         padding: EdgeInsets.all(35),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
@@ -49,14 +48,19 @@ class CreateHabitScreen extends ConsumerWidget {
               ),
             ),
             SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                ref.read(userHabitsProvider.notifier).createHabit(
-                  _titleController.text,
-                  _descriptionController.text,
-                );
-              },
-              child: (habits is AsyncLoading) ? CircularProgressIndicator() : Text("Create Habit"),
+            Align(
+              alignment: Alignment.centerRight,
+              child: ElevatedButton(
+                onPressed: () {
+                  ref.read(userHabitsProvider.notifier).createHabit(
+                        _titleController.text,
+                        _descriptionController.text,
+                      );
+                },
+                child: (habits is AsyncLoading)
+                    ? CircularProgressIndicator()
+                    : Text("Create Habit"),
+              ),
             ),
           ],
         ),

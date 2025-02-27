@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:wildfire/src/presentation/screens/create_habit.dart';
 import 'package:wildfire/src/presentation/widgets/appbar_home.dart';
 import 'package:wildfire/src/providers/habit_provider.dart';
 
@@ -11,13 +11,22 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final habits = ref.watch(userHabitsProvider);
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(161),
         child: AppBarHome(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.push("/create-habit");
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            isDismissible: true,
+            showDragHandle: true,
+            builder: (context) {
+              return CreateHabitScreen();
+            },
+          );
         },
         tooltip: "Add a new habit",
         child: Icon(Icons.add),
