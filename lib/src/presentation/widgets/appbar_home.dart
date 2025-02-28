@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:calendar_slider/calendar_slider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wildfire/src/presentation/widgets/avatar_button.dart';
+import 'package:wildfire/src/providers/date_provider.dart';
 
-class AppBarHome extends StatefulWidget {
+part 'appbar_home.g.dart';
+
+@riverpod
+CalendarSliderController calController(Ref ref) {
+  return CalendarSliderController();
+}
+
+class AppBarHome extends ConsumerWidget {
   const AppBarHome({super.key});
 
   @override
-  State<AppBarHome> createState() => _AppBarHomeState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currDate = ref.watch(currDateProvider);
+    final calcontroller = ref.watch(calControllerProvider);
 
-class _AppBarHomeState extends State<AppBarHome> {
-  final _calcontroller = CalendarSliderController();
-
-  @override
-  Widget build(BuildContext context) {
     return Column(children: [
       AppBar(
-        title: Text("Wildfire"),
+        title: Text(DateFormat("MMM yyyy").format(currDate)),
         centerTitle: true,
         leading: IconButton(
             icon: Icon(Icons.calendar_month_rounded),
@@ -28,21 +35,21 @@ class _AppBarHomeState extends State<AppBarHome> {
                 lastDate: DateTime.now(),
               );
               if (picked != null) {
-                _calcontroller.goToDay(picked);
+                calcontroller.goToDay(picked);
               }
             }),
         actions: [
           TextButton(
             child: Text("Today"),
             onPressed: () {
-              _calcontroller.goToDay(DateTime.now());
+              calcontroller.goToDay(DateTime.now());
             },
           ),
           AvatarButton(),
         ],
       ),
       CalendarSlider(
-        controller: _calcontroller,
+        controller: calcontroller,
         fullCalendar: false,
         initialDate: DateTime.now(),
         firstDate: DateTime.parse("1947-08-15"),
@@ -52,7 +59,7 @@ class _AppBarHomeState extends State<AppBarHome> {
         tileBackgroundColor: Theme.of(context).colorScheme.surface,
         dateColor: Theme.of(context).colorScheme.onSurface,
         onDateSelected: (date) {
-          print(date);
+          ref.read(currDateProvider.notifier).updateDate(date);
         },
       ),
     ]);
