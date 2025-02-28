@@ -24,6 +24,7 @@ mixin _$Habit {
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   String get createdBy => throw _privateConstructorUsedError;
+  Map<String, dynamic> get dates => throw _privateConstructorUsedError;
 
   /// Serializes this Habit to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,7 +40,12 @@ abstract class $HabitCopyWith<$Res> {
   factory $HabitCopyWith(Habit value, $Res Function(Habit) then) =
       _$HabitCopyWithImpl<$Res, Habit>;
   @useResult
-  $Res call({String id, String title, String description, String createdBy});
+  $Res call(
+      {String id,
+      String title,
+      String description,
+      String createdBy,
+      Map<String, dynamic> dates});
 }
 
 /// @nodoc
@@ -61,6 +67,7 @@ class _$HabitCopyWithImpl<$Res, $Val extends Habit>
     Object? title = null,
     Object? description = null,
     Object? createdBy = null,
+    Object? dates = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -79,6 +86,10 @@ class _$HabitCopyWithImpl<$Res, $Val extends Habit>
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
               as String,
+      dates: null == dates
+          ? _value.dates
+          : dates // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
     ) as $Val);
   }
 }
@@ -90,7 +101,12 @@ abstract class _$$HabitImplCopyWith<$Res> implements $HabitCopyWith<$Res> {
       __$$HabitImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String title, String description, String createdBy});
+  $Res call(
+      {String id,
+      String title,
+      String description,
+      String createdBy,
+      Map<String, dynamic> dates});
 }
 
 /// @nodoc
@@ -110,6 +126,7 @@ class __$$HabitImplCopyWithImpl<$Res>
     Object? title = null,
     Object? description = null,
     Object? createdBy = null,
+    Object? dates = null,
   }) {
     return _then(_$HabitImpl(
       id: null == id
@@ -128,6 +145,10 @@ class __$$HabitImplCopyWithImpl<$Res>
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
               as String,
+      dates: null == dates
+          ? _value._dates
+          : dates // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
     ));
   }
 }
@@ -139,7 +160,9 @@ class _$HabitImpl implements _Habit {
       {required this.id,
       required this.title,
       required this.description,
-      required this.createdBy});
+      required this.createdBy,
+      final Map<String, dynamic> dates = const {}})
+      : _dates = dates;
 
   factory _$HabitImpl.fromJson(Map<String, dynamic> json) =>
       _$$HabitImplFromJson(json);
@@ -152,10 +175,18 @@ class _$HabitImpl implements _Habit {
   final String description;
   @override
   final String createdBy;
+  final Map<String, dynamic> _dates;
+  @override
+  @JsonKey()
+  Map<String, dynamic> get dates {
+    if (_dates is EqualUnmodifiableMapView) return _dates;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_dates);
+  }
 
   @override
   String toString() {
-    return 'Habit(id: $id, title: $title, description: $description, createdBy: $createdBy)';
+    return 'Habit(id: $id, title: $title, description: $description, createdBy: $createdBy, dates: $dates)';
   }
 
   @override
@@ -168,13 +199,14 @@ class _$HabitImpl implements _Habit {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.createdBy, createdBy) ||
-                other.createdBy == createdBy));
+                other.createdBy == createdBy) &&
+            const DeepCollectionEquality().equals(other._dates, _dates));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, title, description, createdBy);
+  int get hashCode => Object.hash(runtimeType, id, title, description,
+      createdBy, const DeepCollectionEquality().hash(_dates));
 
   /// Create a copy of Habit
   /// with the given fields replaced by the non-null parameter values.
@@ -197,7 +229,8 @@ abstract class _Habit implements Habit {
       {required final String id,
       required final String title,
       required final String description,
-      required final String createdBy}) = _$HabitImpl;
+      required final String createdBy,
+      final Map<String, dynamic> dates}) = _$HabitImpl;
 
   factory _Habit.fromJson(Map<String, dynamic> json) = _$HabitImpl.fromJson;
 
@@ -209,6 +242,8 @@ abstract class _Habit implements Habit {
   String get description;
   @override
   String get createdBy;
+  @override
+  Map<String, dynamic> get dates;
 
   /// Create a copy of Habit
   /// with the given fields replaced by the non-null parameter values.

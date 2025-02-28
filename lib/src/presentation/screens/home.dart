@@ -34,15 +34,15 @@ class HomeScreen extends ConsumerWidget {
       body: Center(
         child: habits.when(
           data: (data) {
-            if (data!.isEmpty) {
+            if (data.isEmpty) {
               return Text("Add a new habit!");
             }
             return ListView.builder(
               itemCount: data.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(data[index]!.title),
-                  subtitle: Text(data[index]!.description),
+                  title: Text(data[index].title),
+                  subtitle: Text(data[index].description),
                 );
               },
             );

@@ -11,6 +11,7 @@ _$HabitImpl _$$HabitImplFromJson(Map<String, dynamic> json) => _$HabitImpl(
       title: json['title'] as String,
       description: json['description'] as String,
       createdBy: json['createdBy'] as String,
+      dates: json['dates'] as Map<String, dynamic>? ?? const {},
     );
 
 Map<String, dynamic> _$$HabitImplToJson(_$HabitImpl instance) =>
@@ -19,4 +20,5 @@ Map<String, dynamic> _$$HabitImplToJson(_$HabitImpl instance) =>
       'title': instance.title,
       'description': instance.description,
       'createdBy': instance.createdBy,
+      'dates': instance.dates,
     };

@@ -7,11 +7,13 @@ class HabitRepository {
   Future<List<Habit>> getHabits(String userId) async {
     final habitsData = await _habitService.getHabits(userId);
     return habitsData.map((habit) {
+      print(habit['dates'].runtimeType);
       return Habit(
         id: habit['habit']['_id'],
         title: habit['habit']['title'],
         description: habit['habit']['description'],
         createdBy: habit['habit']['createdBy'],
+        dates: habit['dates'],
       );
     }).toList();
   }
