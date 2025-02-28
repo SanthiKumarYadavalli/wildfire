@@ -5,6 +5,13 @@ class UserRepository {
   final UserService userService = UserService();
 
   Future<User> getUser(String id) async {
-    return await userService.getUser(id);
+    final userData = await userService.getUser(id);
+    return User(
+      id: userData['_id'],
+      username: userData['username'],
+      email: userData['email'],
+      name: userData['name'],
+      profileImageUrl: userData['profilePic'],
+    );
   }
 }

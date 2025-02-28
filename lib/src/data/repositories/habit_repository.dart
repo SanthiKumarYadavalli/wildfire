@@ -5,10 +5,24 @@ class HabitRepository {
   final HabitService _habitService = HabitService();
 
   Future<List<Habit>> getHabits(String userId) async {
-    return await _habitService.getHabits(userId);
+    final habitsData = await _habitService.getHabits(userId);
+    return habitsData.map((habit) {
+      return Habit(
+        id: habit['habit']['_id'],
+        title: habit['habit']['title'],
+        description: habit['habit']['description'],
+        createdBy: habit['habit']['createdBy'],
+      );
+    }).toList();
   }
 
   Future<Habit> createHabit(String token, Map<String, dynamic> data) async {
-    return await _habitService.createHabit(token, data);
+    final habitData = await _habitService.createHabit(token, data);
+    return Habit(
+      id: habitData['_id'],
+      title: habitData['title'],
+      description: habitData['description'],
+      createdBy: habitData['createdBy'],
+    );
   }
 }
