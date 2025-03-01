@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'habit_model.freezed.dart';
 part 'habit_model.g.dart';
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class Habit with _$Habit {
   const factory Habit({
     required String id,

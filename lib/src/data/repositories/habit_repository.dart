@@ -7,7 +7,6 @@ class HabitRepository {
   Future<List<Habit>> getHabits(String userId) async {
     final habitsData = await _habitService.getHabits(userId);
     return habitsData.map((habit) {
-      print(habit['dates'].runtimeType);
       return Habit(
         id: habit['habit']['_id'],
         title: habit['habit']['title'],
@@ -26,5 +25,9 @@ class HabitRepository {
       description: habitData['description'],
       createdBy: habitData['createdBy'],
     );
+  }
+
+  Future<void> toggleCompletion(String token, String habitId, String date) async {
+    await _habitService.toggleCompletion(token, habitId, date);
   }
 }

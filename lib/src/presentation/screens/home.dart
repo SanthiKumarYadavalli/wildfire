@@ -43,7 +43,8 @@ class HomeScreen extends ConsumerWidget {
             return ListView.builder(
               itemCount: data.length,
               itemBuilder: (context, index) {
-                final isCompleted = data[index].dates.containsKey(DateFormat("yyyy-MM-dd").format(currDate));
+                final formattedDate = DateFormat("yyyy-MM-dd").format(currDate);
+                final isCompleted = data[index].dates.containsKey(formattedDate);
                 return Container(
                   padding: EdgeInsets.all(10),
                   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -78,7 +79,7 @@ class HomeScreen extends ConsumerWidget {
                             ? Icon(Icons.local_fire_department_sharp, color: Colors.deepOrange, size: 40) 
                             : Icon(Icons.local_fire_department_outlined, color: Colors.grey, size: 40),
                       onPressed: () {
-                        print("Habit completed!");
+                        ref.read(userHabitsProvider.notifier).toggleCompletion(data[index].id, formattedDate);
                       },
                     ),
                   ),

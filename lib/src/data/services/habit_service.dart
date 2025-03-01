@@ -26,4 +26,20 @@ class HabitService {
       throw Exception("Failed to create habit");
     }
   }
+
+  Future<void> toggleCompletion(token, habitId, date) async {
+    final response = await post(
+      Uri.parse("${Env.apiUrl}/user-habit/toggle-complete"),
+      body: {
+        "habitId": habitId,
+        "date": date,
+      },
+      headers: {
+        "Authorization": "Bearer $token",
+      }
+    );
+    if (response.statusCode != 201) {
+      throw Exception("Failed to toggle completion");
+    }
+  }
 }

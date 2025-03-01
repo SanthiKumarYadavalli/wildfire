@@ -32,4 +32,23 @@ class UserHabits extends _$UserHabits {
       return [...prevState!, newHabit];
     });
   }
+
+  void toggleCompletion(habitId, date) async {
+    final token = ref.read(authProvider).requireValue;
+    final prevState = state.value;
+    state = AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      await _habitRepository.toggleCompletion(token, habitId, date);
+      return prevState!.map((habit) {
+        if (habit.id == habitId) {
+          if (habit.dates.containsKey(date)) {
+            habit.dates.remove(date);
+          } else {
+            habit.dates[date] = 1;
+          }
+        }
+        return habit;
+      }).toList();
+    });
+  }
 }
