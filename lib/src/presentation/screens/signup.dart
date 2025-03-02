@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wildfire/src/presentation/widgets/auth_button.dart';
 import 'package:wildfire/src/presentation/widgets/password_field.dart';
 import 'package:wildfire/src/providers/auth_provider.dart';
 
@@ -113,7 +114,7 @@ class SignupScreen extends ConsumerWidget {
                   const SizedBox(height: 16),
                   PasswordField(controller: _passwordController),
                   const SizedBox(height: 24),
-                  ElevatedButton(
+                  AuthButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         final userData = {
@@ -125,15 +126,8 @@ class SignupScreen extends ConsumerWidget {
                         ref.read(signupProvider.notifier).signup(userData);
                       }
                     },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                      backgroundColor: Theme.of(context).primaryColor,
-                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                    child: isLoading ? CircularProgressIndicator(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ) : const Text('SIGN UP'),
+                    isLoading: isLoading,
+                    labelText: "SIGN UP",
                   ),
                   const SizedBox(height: 16),
                   Row(

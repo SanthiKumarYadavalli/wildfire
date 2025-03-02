@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wildfire/src/presentation/widgets/auth_button.dart';
 import 'package:wildfire/src/presentation/widgets/password_field.dart';
 import 'package:wildfire/src/providers/auth_provider.dart';
 
@@ -29,12 +30,14 @@ class LoginScreen extends ConsumerWidget {
           padding: EdgeInsets.all(35),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
                 "WildFire",
                 style: Theme.of(context).textTheme.headlineLarge,
+                textAlign: TextAlign.center,
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 25),
               TextFormField(
                 controller: _usernameController,
                 decoration: InputDecoration(
@@ -51,8 +54,8 @@ class LoginScreen extends ConsumerWidget {
               ),
               SizedBox(height: 10),
               PasswordField(controller: _passwordController),
-              SizedBox(height: 10),
-              ElevatedButton(
+              SizedBox(height: 20),
+              AuthButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     ref.read(loginProvider.notifier).login({
@@ -61,7 +64,8 @@ class LoginScreen extends ConsumerWidget {
                     });
                   }
                 },
-                child: auth.isLoading ? CircularProgressIndicator() : Text("Login"),
+                isLoading: auth.isLoading,
+                labelText: "LOGIN",
               ),
               SizedBox(height: 10),
               Row(
