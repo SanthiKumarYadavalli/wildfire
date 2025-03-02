@@ -7,7 +7,7 @@ part 'auth_provider.g.dart';
 final AuthRepository authRepository = AuthRepository();
 
 @riverpod
-class Auth extends _$Auth {
+class Login extends _$Login {
   @override
   FutureOr<String> build() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -29,12 +29,21 @@ class Auth extends _$Auth {
     prefs.remove("token");
     state = const AsyncValue.data("");
   }
+}
+
+
+@riverpod
+class Signup extends _$Signup {
+  @override
+  FutureOr<void> build() {
+    return null;
+  }
 
   Future<void> signup(Map<String, dynamic> formData) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       await authRepository.signup(formData);
-      return "";
+      return;
     });
   }
 }

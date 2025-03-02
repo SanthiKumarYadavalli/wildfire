@@ -11,8 +11,8 @@ class LoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final auth = ref.watch(authProvider);
-    ref.listen(authProvider, (_, state) {
+    final auth = ref.watch(loginProvider);
+    ref.listen(loginProvider, (_, state) {
       if (state is AsyncError) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(state.error.toString()),
@@ -60,7 +60,7 @@ class LoginScreen extends ConsumerWidget {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    ref.read(authProvider.notifier).login({
+                    ref.read(loginProvider.notifier).login({
                       "username": _usernameController.text,
                       "password": _passwordController.text,
                     });

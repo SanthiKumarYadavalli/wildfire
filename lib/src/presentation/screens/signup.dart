@@ -17,12 +17,13 @@ class SignupScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(
-      authProvider,
+      signupProvider,
       (_, state) => state.whenOrNull(
         data: (data) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Successfully registered! Please Log in."))
           );
+          context.go('/login');
         },
         error: (error, stackTrace) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -33,6 +34,7 @@ class SignupScreen extends ConsumerWidget {
         },
       )
     );
+    final isLoading = ref.watch(signupProvider).isLoading;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(25),
@@ -56,7 +58,7 @@ class SignupScreen extends ConsumerWidget {
                   TextFormField(
                     controller: _nameController,
                     decoration: const InputDecoration(
-                      labelText: 'Full Name',
+                      labelText: 'Name',
                       prefixIcon: Icon(Icons.person),
                       border: OutlineInputBorder(),
                     ),
@@ -141,7 +143,7 @@ class SignupScreen extends ConsumerWidget {
                           "email": _emailController.text,
                           "password": _passwordController.text,
                         };
-                        ref.read(authProvider.notifier).signup(userData);
+                        ref.read(signupProvider.notifier).signup(userData);
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -150,7 +152,9 @@ class SignupScreen extends ConsumerWidget {
                       backgroundColor: Theme.of(context).primaryColor,
                       foregroundColor: Theme.of(context).colorScheme.onPrimary,
                     ),
-                    child: const Text('SIGN UP'),
+                    child: isLoading ? CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ) : const Text('SIGN UP'),
                   ),
                   const SizedBox(height: 16),
                   Row(

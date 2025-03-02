@@ -6,7 +6,7 @@ part of 'habit_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$userHabitsHash() => r'303cc214f79c9268393cb942ae6f656fabebc0c5';
+String _$userHabitsHash() => r'cd20c8d950f3f65a3408aa8edbcd58d79543c853';
 
 /// See also [UserHabits].
 @ProviderFor(UserHabits)

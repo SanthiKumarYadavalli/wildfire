@@ -11,7 +11,7 @@ class UserHabits extends _$UserHabits {
   final HabitRepository _habitRepository = HabitRepository();
   @override
   FutureOr<List<Habit>> build() async {
-    final token = ref.read(authProvider).requireValue;
+    final token = ref.read(loginProvider).requireValue;
     if (token != '') {
       final Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
       final habits = await _habitRepository.getHabits(decodedToken['id']);
@@ -21,7 +21,7 @@ class UserHabits extends _$UserHabits {
   }
 
   void createHabit(title, description) async {
-    final token = ref.read(authProvider).requireValue;
+    final token = ref.read(loginProvider).requireValue;
     final prevState = state.value;
     state = AsyncValue.loading();
     state = await AsyncValue.guard(() async {
@@ -34,7 +34,7 @@ class UserHabits extends _$UserHabits {
   }
 
   void toggleCompletion(habitId, date) async {
-    final token = ref.read(authProvider).requireValue;
+    final token = ref.read(loginProvider).requireValue;
     final prevState = state.value;
     state = AsyncValue.loading();
     state = await AsyncValue.guard(() async {

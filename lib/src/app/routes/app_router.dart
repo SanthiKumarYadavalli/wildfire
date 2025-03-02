@@ -10,7 +10,7 @@ part 'app_router.g.dart';
 
 @riverpod
 GoRouter router(ref) {
-  final AsyncValue<String> auth = ref.watch(authProvider);
+  final AsyncValue<String> auth = ref.watch(loginProvider);
   return GoRouter(routes: [
     GoRoute(
       path: "/login",

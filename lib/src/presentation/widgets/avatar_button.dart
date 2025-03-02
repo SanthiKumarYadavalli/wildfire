@@ -12,7 +12,7 @@ class AvatarButton extends ConsumerWidget {
     return MenuAnchor(
       menuChildren: [
         MenuItemButton(
-          onPressed: () => ref.read(authProvider.notifier).logout(),
+          onPressed: () => ref.read(loginProvider.notifier).logout(),
           leadingIcon: Icon(Icons.logout),
           child: Text("Logout"),
         )
