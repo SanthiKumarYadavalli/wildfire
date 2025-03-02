@@ -17,4 +17,19 @@ class AuthService {
       throw Exception("Failed to login");
     }
   }
+
+  Future<void> signupUser(String name, String username, String email, String password) async {
+    final response = await post(
+      Uri.parse("${Env.apiUrl}/user/register"),
+      body: {
+        'name': name,
+        'username': username,
+        'email': email,
+        'password': password,
+      }
+    );
+    if (response.statusCode != 201) {
+      throw Exception("Failed to signup");
+    }
+  }
 }

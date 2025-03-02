@@ -1,6 +1,7 @@
 import "package:go_router/go_router.dart";
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wildfire/src/presentation/screens/signup.dart';
 import '../../presentation/screens/login.dart';
 import '../../presentation/screens/home.dart';
 import '../../providers/auth_provider.dart';
@@ -14,6 +15,10 @@ GoRouter router(ref) {
     GoRoute(
       path: "/login",
       builder: (context, state) => LoginScreen(),
+    ),
+    GoRoute(
+      path: "/signup",
+      builder: (context, state) => SignupScreen(),
     ),
     GoRoute(
       path: '/',

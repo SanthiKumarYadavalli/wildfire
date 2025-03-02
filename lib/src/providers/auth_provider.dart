@@ -29,4 +29,12 @@ class Auth extends _$Auth {
     prefs.remove("token");
     state = const AsyncValue.data("");
   }
+
+  Future<void> signup(Map<String, dynamic> formData) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      await authRepository.signup(formData);
+      return "";
+    });
+  }
 }
