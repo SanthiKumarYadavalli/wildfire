@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wildfire/src/presentation/widgets/password_field.dart';
 import 'package:wildfire/src/providers/auth_provider.dart';
 
 class LoginScreen extends ConsumerWidget {
@@ -37,6 +38,7 @@ class LoginScreen extends ConsumerWidget {
               TextFormField(
                 controller: _usernameController,
                 decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.person),
                   border: OutlineInputBorder(),
                   hintText: "Username or Email",
                 ),
@@ -48,14 +50,7 @@ class LoginScreen extends ConsumerWidget {
                 },
               ),
               SizedBox(height: 10),
-              TextFormField(
-                controller: _passwordController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: "Password",
-                ),
-                obscureText: true,
-              ),
+              PasswordField(controller: _passwordController),
               SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {

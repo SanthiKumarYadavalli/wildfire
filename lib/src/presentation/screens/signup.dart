@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wildfire/src/presentation/widgets/password_field.dart';
 import 'package:wildfire/src/providers/auth_provider.dart';
 
+@riverpod
+bool showPassword(Ref ref) {
+  return false;
+}
 
 class SignupScreen extends ConsumerWidget {
   SignupScreen({super.key});
@@ -12,7 +17,6 @@ class SignupScreen extends ConsumerWidget {
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _obscurePassword = true;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -107,32 +111,7 @@ class SignupScreen extends ConsumerWidget {
                     },
                   ),
                   const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      prefixIcon: const Icon(Icons.lock),
-                      border: const OutlineInputBorder(),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                        ),
-                        onPressed: () {
-        
-                        },
-                      ),
-                    ),
-                    obscureText: _obscurePassword,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a password';
-                      }
-                      if (value.length <= 1) {
-                        return 'Password must be at least 1 character';
-                      }
-                      return null;
-                    },
-                  ),
+                  PasswordField(controller: _passwordController),
                   const SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: () {
