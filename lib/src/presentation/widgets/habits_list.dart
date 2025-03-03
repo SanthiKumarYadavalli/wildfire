@@ -11,6 +11,7 @@ class HabitsList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final loadingHabits = ref.watch(loadingHabitsProvider);
     final currDate = ref.watch(currDateProvider);
     return RefreshIndicator(
       onRefresh: () => ref.refresh(userHabitsProvider.future),
@@ -18,8 +19,10 @@ class HabitsList extends ConsumerWidget {
         padding: EdgeInsets.only(bottom: 80),
         itemCount: data.length,
         itemBuilder: (context, index) {
+          final habit = data[index];
           final formattedDate = DateFormat("yyyy-MM-dd").format(currDate);
-          final isCompleted = data[index].dates.containsKey(formattedDate);
+          final isCompleted = habit.dates.containsKey(formattedDate);
+          final isLoading = loadingHabits.contains(habit.id);
           return Container(
             padding: EdgeInsets.all(10),
             margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -38,12 +41,12 @@ class HabitsList extends ConsumerWidget {
                   width: 5,
                 ),
               ),
-              color: Theme.of(context).cardColor,
+              color: isLoading ? Theme.of(context).hoverColor : Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(10),
             ),
             child: ListTile(
               title: Text(
-                data[index].title,
+                habit.title,
                 style: TextStyle(
                   fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
                   fontWeight: Theme.of(context).textTheme.titleMedium!.fontWeight,
@@ -55,9 +58,10 @@ class HabitsList extends ConsumerWidget {
                         color: Colors.deepOrange, size: 40)
                     : Icon(Icons.local_fire_department_outlined,
                         color: Colors.grey, size: 40),
-                onPressed: () {
+                disabledColor: Colors.grey,
+                onPressed: isLoading ? null : () {
                   ref.read(userHabitsProvider.notifier)
-                     .toggleCompletion(data[index].id, formattedDate);
+                     .toggleCompletion(habit.id, formattedDate);
                 },
               ),
             ),
