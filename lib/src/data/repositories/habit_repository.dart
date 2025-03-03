@@ -24,6 +24,7 @@ class HabitRepository {
       title: habitData['title'],
       description: habitData['description'],
       createdBy: habitData['createdBy'],
+      dates: {}
     );
   }
 

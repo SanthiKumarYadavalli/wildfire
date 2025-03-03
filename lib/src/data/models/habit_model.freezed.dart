@@ -161,7 +161,7 @@ class _$HabitImpl implements _Habit {
       required this.title,
       required this.description,
       required this.createdBy,
-      this.dates = const {}});
+      required this.dates});
 
   factory _$HabitImpl.fromJson(Map<String, dynamic> json) =>
       _$$HabitImplFromJson(json);
@@ -175,7 +175,6 @@ class _$HabitImpl implements _Habit {
   @override
   final String createdBy;
   @override
-  @JsonKey()
   final Map<String, dynamic> dates;
 
   @override
@@ -224,7 +223,7 @@ abstract class _Habit implements Habit {
       required final String title,
       required final String description,
       required final String createdBy,
-      final Map<String, dynamic> dates}) = _$HabitImpl;
+      required final Map<String, dynamic> dates}) = _$HabitImpl;
 
   factory _Habit.fromJson(Map<String, dynamic> json) = _$HabitImpl.fromJson;
 

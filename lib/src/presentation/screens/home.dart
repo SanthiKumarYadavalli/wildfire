@@ -41,6 +41,7 @@ class HomeScreen extends ConsumerWidget {
               return Text("Add a new habit!");
             }
             return ListView.builder(
+              padding: EdgeInsets.only(bottom: 80),
               itemCount: data.length,
               itemBuilder: (context, index) {
                 final formattedDate = DateFormat("yyyy-MM-dd").format(currDate);

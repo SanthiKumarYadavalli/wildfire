@@ -25,6 +25,7 @@ class AppBarHome extends ConsumerWidget {
       AppBar(
         title: Text(DateFormat("MMM yyyy").format(currDate)),
         centerTitle: true,
+        forceMaterialTransparency: true,
         leading: IconButton(
             icon: Icon(Icons.calendar_month_rounded),
             onPressed: () async {

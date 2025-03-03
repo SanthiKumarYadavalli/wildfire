@@ -36,7 +36,6 @@ class UserHabits extends _$UserHabits {
   void toggleCompletion(habitId, date) async {
     final token = ref.read(loginProvider).requireValue;
     final prevState = state.value;
-    state = AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       await _habitRepository.toggleCompletion(token, habitId, date);
       return prevState!.map((habit) {
