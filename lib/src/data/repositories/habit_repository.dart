@@ -12,7 +12,7 @@ class HabitRepository {
         title: habit['habit']['title'],
         description: habit['habit']['description'],
         createdBy: habit['habit']['createdBy'],
-        dates: habit['dates'],
+        dates: (habit['dates']).cast<String, int>()
       );
     }).toList();
   }

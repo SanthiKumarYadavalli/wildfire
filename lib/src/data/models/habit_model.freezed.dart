@@ -24,7 +24,7 @@ mixin _$Habit {
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   String get createdBy => throw _privateConstructorUsedError;
-  Map<String, dynamic> get dates => throw _privateConstructorUsedError;
+  Map<String, int> get dates => throw _privateConstructorUsedError;
 
   /// Serializes this Habit to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,7 +45,7 @@ abstract class $HabitCopyWith<$Res> {
       String title,
       String description,
       String createdBy,
-      Map<String, dynamic> dates});
+      Map<String, int> dates});
 }
 
 /// @nodoc
@@ -89,7 +89,7 @@ class _$HabitCopyWithImpl<$Res, $Val extends Habit>
       dates: null == dates
           ? _value.dates
           : dates // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+              as Map<String, int>,
     ) as $Val);
   }
 }
@@ -106,7 +106,7 @@ abstract class _$$HabitImplCopyWith<$Res> implements $HabitCopyWith<$Res> {
       String title,
       String description,
       String createdBy,
-      Map<String, dynamic> dates});
+      Map<String, int> dates});
 }
 
 /// @nodoc
@@ -148,7 +148,7 @@ class __$$HabitImplCopyWithImpl<$Res>
       dates: null == dates
           ? _value.dates
           : dates // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+              as Map<String, int>,
     ));
   }
 }
@@ -175,7 +175,7 @@ class _$HabitImpl implements _Habit {
   @override
   final String createdBy;
   @override
-  final Map<String, dynamic> dates;
+  final Map<String, int> dates;
 
   @override
   String toString() {
@@ -223,7 +223,7 @@ abstract class _Habit implements Habit {
       required final String title,
       required final String description,
       required final String createdBy,
-      required final Map<String, dynamic> dates}) = _$HabitImpl;
+      required final Map<String, int> dates}) = _$HabitImpl;
 
   factory _Habit.fromJson(Map<String, dynamic> json) = _$HabitImpl.fromJson;
 
@@ -236,7 +236,7 @@ abstract class _Habit implements Habit {
   @override
   String get createdBy;
   @override
-  Map<String, dynamic> get dates;
+  Map<String, int> get dates;
 
   /// Create a copy of Habit
   /// with the given fields replaced by the non-null parameter values.

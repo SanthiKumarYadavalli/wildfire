@@ -10,7 +10,7 @@ class Habit with _$Habit {
     required String title,
     required String description,
     required String createdBy,
-    required Map<String, dynamic> dates,
+    required Map<String, int> dates,
   }) = _Habit;
 
   factory Habit.fromJson(Map<String, dynamic> json) => _$HabitFromJson(json);
