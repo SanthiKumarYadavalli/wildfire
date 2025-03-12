@@ -12,6 +12,7 @@ class HabitScreen extends ConsumerWidget {
     final habits = ref.watch(userHabitsProvider).requireValue;
     final habit = habits.firstWhere((element) => element.id == id);
     final (currentStreak, maxStreak) = getCurrAndMaxStreaks(habit.dates);
+    final numCompletions = getNumCompletions(habit.dates);
     return Scaffold(
       appBar: AppBar(
         title: Text("Habit"),
@@ -76,6 +77,31 @@ class HabitScreen extends ConsumerWidget {
                     )
                   ),
                 )
+              ],
+            ),
+            SizedBox(height: 20),
+            Divider(),
+            SizedBox(height: 20),
+            Text("Completions", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            SizedBox(height: 10),
+            ListView(
+              shrinkWrap: true,
+              children: [
+                ListTile(
+                  title: Text("This Week"),
+                  trailing: Text(numCompletions["week"].toString(), style: TextStyle(fontSize: 20)),
+                  subtitle: LinearProgressIndicator(value: numCompletions["week"]! / 7),
+                ),
+                ListTile(
+                  title: Text("This Month"),
+                  trailing: Text(numCompletions["month"].toString(), style: TextStyle(fontSize: 20)),
+                  subtitle: LinearProgressIndicator(value: numCompletions["month"]! / 30),
+                ),
+                ListTile(
+                  title: Text("This Year"),
+                  trailing: Text(numCompletions["year"].toString(), style: TextStyle(fontSize: 20)),
+                  subtitle: LinearProgressIndicator(value: numCompletions["year"]! / 365),
+                ),
               ],
             )
           ]
