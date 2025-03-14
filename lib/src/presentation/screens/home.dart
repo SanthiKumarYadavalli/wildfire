@@ -35,9 +35,6 @@ class HomeScreen extends ConsumerWidget {
       body: Center(
         child: habits.when(
           data: (data) {
-            if (data.isEmpty) {
-              return Text("Add a new habit!");
-            }
             return HabitsList(data: data);
           },
           loading: () => CircularProgressIndicator(),
