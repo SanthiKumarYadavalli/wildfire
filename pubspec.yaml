@@ -44,6 +44,7 @@ dependencies:
   jwt_decoder: ^2.0.1
   calendar_slider: ^0.0.4
   intl: ^0.19.0
+  flutter_native_splash: ^2.4.4
 
 dev_dependencies:
   flutter_test:
@@ -103,3 +104,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+flutter_native_splash:
+  image: assets/pushpa_splash.jpg
+  color: "#ffffff"
+  android_12:
+    image: assets/pushpa_splash.jpg
+    color: "#ffffff"
