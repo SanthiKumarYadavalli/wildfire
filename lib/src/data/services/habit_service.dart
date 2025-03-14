@@ -42,4 +42,13 @@ class HabitService {
       throw Exception("Failed to toggle completion");
     }
   }
+
+  Future<List<dynamic>> getFriends(habitId) async {
+    final response = await get(Uri.parse("${Env.apiUrl}/user-habit/$habitId/members/"));
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as List;
+    } else {
+      throw Exception("Failed to get friends");
+    }
+  }
 }

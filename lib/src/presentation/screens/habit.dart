@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wildfire/src/presentation/widgets/habit_friends.dart';
 import 'package:wildfire/src/presentation/widgets/habit_statistics.dart';
 import 'package:wildfire/src/providers/habit_provider.dart';
 
@@ -27,7 +28,7 @@ class HabitScreen extends ConsumerWidget {
         body: TabBarView(
           children: [
             HabitStatistics(habit: habit),
-            Container(),
+            HabitFriends(habitId: id),
           ],
         )
       ),

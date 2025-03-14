@@ -1,4 +1,6 @@
+import 'package:wildfire/src/data/models/friend_model.dart';
 import 'package:wildfire/src/data/models/habit_model.dart';
+import 'package:wildfire/src/data/models/user_model.dart';
 import 'package:wildfire/src/data/services/habit_service.dart';
 
 class HabitRepository {
@@ -30,5 +32,21 @@ class HabitRepository {
 
   Future<void> toggleCompletion(String token, String habitId, String date) async {
     await _habitService.toggleCompletion(token, habitId, date);
+  }
+
+  Future<List<Friend>> getFriends(String habitId) async {
+    final friendsData = await _habitService.getFriends(habitId);
+    return friendsData.map((friend) {
+      return Friend(
+        profile: User(
+          id: friend['user']['_id'],
+          username: friend['user']['username'],
+          name: friend['user']['name'],
+          email: friend['user']['email'],
+          profileImageUrl: friend['user']['profilePic'],
+        ),
+        dates: (friend['dates']).cast<String, int>()
+      );
+    }).toList();
   }
 }

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wildfire/src/data/models/habit_model.dart';
 import 'package:wildfire/src/utils/streak_utils.dart';
 
-class HabitStatistics extends ConsumerWidget {
+class HabitStatistics extends StatelessWidget {
   const HabitStatistics({super.key, required this.habit});
   final Habit habit;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final (currentStreak, maxStreak) = getCurrAndMaxStreaks(habit.dates);
     final numCompletions = getNumCompletions(habit.dates);
     return Container(
