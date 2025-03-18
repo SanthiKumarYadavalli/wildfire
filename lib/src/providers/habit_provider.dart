@@ -56,6 +56,16 @@ class UserHabits extends _$UserHabits {
     });
     ref.read(loadingHabitsProvider.notifier).remove(habitId);
   }
+
+  void deleteHabit(String habitId) async {
+    final token = ref.read(loginProvider).requireValue;
+    final prevState = state.value;
+    state = AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      await habitRepository.deleteHabit(token, habitId);
+      return prevState!.where((habit) => habit.id != habitId).toList();
+    });
+  }
 }
 
 @riverpod

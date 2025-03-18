@@ -43,6 +43,18 @@ class HabitService {
     }
   }
 
+  Future<void> deleteHabit(token, habitId) async {
+    final response = await delete(
+      Uri.parse("${Env.apiUrl}/habit/delete/"),
+      body: {
+        "id": habitId,
+      }
+    );
+    if (response.statusCode != 200) {
+      throw Exception("Failed to delete habit");
+    }
+  }
+
   Future<List<dynamic>> getFriends(habitId) async {
     final response = await get(Uri.parse("${Env.apiUrl}/user-habit/$habitId/members/"));
     if (response.statusCode == 200) {

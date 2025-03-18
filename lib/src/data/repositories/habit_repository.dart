@@ -34,6 +34,10 @@ class HabitRepository {
     await _habitService.toggleCompletion(token, habitId, date);
   }
 
+  Future<void> deleteHabit(String token, String habitId) async {
+    await _habitService.deleteHabit(token, habitId);
+  }
+
   Future<List<Friend>> getFriends(String habitId) async {
     final friendsData = await _habitService.getFriends(habitId);
     return friendsData.map((friend) {
