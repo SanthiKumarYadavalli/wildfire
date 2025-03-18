@@ -29,7 +29,10 @@ List<DateTime> getSortedDates(Map<String, int> dates) {
 
 bool isThisWeek(DateTime date) {
   DateTime today = DateTime.now();
-  return today.difference(date).inDays < 7 && today.weekday >= date.weekday;
+  return (
+    today.difference(date).inDays < 7 && 
+    (today.weekday % 7) >= (date.weekday % 7)  // mod 7 to change Sunday from 7 to 0
+  );
 }
 
 
