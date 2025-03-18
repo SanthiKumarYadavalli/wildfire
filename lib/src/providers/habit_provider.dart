@@ -5,6 +5,7 @@ import 'package:wildfire/src/data/models/friend_model.dart';
 import 'package:wildfire/src/data/models/habit_model.dart';
 import 'package:wildfire/src/data/repositories/habit_repository.dart';
 import 'package:wildfire/src/providers/auth_provider.dart';
+import 'package:wildfire/src/utils/streak_utils.dart';
 
 part 'habit_provider.g.dart';
 
@@ -74,6 +75,41 @@ class LoadingHabits extends _$LoadingHabits {
 }
 
 @riverpod
-FutureOr<List<Friend>> habitFriends(Ref ref, String habitId) async {
-  return await habitRepository.getFriends(habitId);
+class HabitFriends extends _$HabitFriends {
+  @override
+  FutureOr<List<Map<String, dynamic>>> build(habitId) async {
+    final friends = await habitRepository.getFriends(habitId);
+    var friendStats = <Map<String, dynamic>>[];
+    for (Friend friend in friends) {
+      final currStats = <String, dynamic>{};
+      final streaks = getCurrAndMaxStreaks(friend.dates);
+      final completions = getNumCompletions(friend.dates);
+      currStats['friend'] = friend;
+      currStats['streak'] = streaks.$1;
+      currStats['week'] = completions["week"];
+      currStats['month'] = completions["month"];
+      currStats['year'] = completions["year"];
+      friendStats.add(currStats);
+    }
+    return friendStats;
+  }
+
+  void sortBySelectedValue(String selectedValue) {
+    state.value!.sort((a, b) {
+      return b[selectedValue].compareTo(a[selectedValue]);
+    });
+    state = state;
+  }
+}
+
+@riverpod
+class FriendsDisplayValue extends _$FriendsDisplayValue {
+  @override
+  String build() {
+    return "week";
+  }
+
+  void update(String value) {
+    state = value;
+  }
 }
