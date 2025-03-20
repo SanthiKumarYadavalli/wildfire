@@ -15,6 +15,7 @@ class HabitScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final habits = ref.watch(userHabitsProvider).requireValue;
     final habit = habits.firstWhere((element) => element.id == id);
+    final friendStats = ref.watch(habitFriendsProvider(habit.id));
 
     return DefaultTabController(
       length: 2,
@@ -66,7 +67,7 @@ class HabitScreen extends ConsumerWidget {
         body: TabBarView(
           children: [
             HabitStatistics(habit: habit),
-            FriendsTab(habitId: id),
+            FriendsTab(habitId: id, friendStats: friendStats),
           ],
         )
       ),

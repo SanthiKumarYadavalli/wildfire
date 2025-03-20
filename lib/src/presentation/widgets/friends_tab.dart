@@ -3,12 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wildfire/src/providers/habit_provider.dart';
 
 class FriendsTab extends ConsumerWidget {
-  const FriendsTab({super.key, required this.habitId});
+  const FriendsTab({super.key, required this.habitId, required this.friendStats});
   final String habitId;
+  final AsyncValue<List<Map<String, dynamic>>> friendStats;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final friendStats = ref.watch(habitFriendsProvider(habitId));
     final displayValue = ref.watch(friendsDisplayValueProvider);
     ref.listen(habitFriendsProvider(habitId), (_, state) {
       if (state is AsyncError) {
