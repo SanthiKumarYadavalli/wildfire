@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wildfire/src/data/models/friend_model.dart';
@@ -6,11 +5,12 @@ import 'package:wildfire/src/data/models/habit_model.dart';
 import 'package:wildfire/src/data/repositories/habit_repository.dart';
 import 'package:wildfire/src/providers/auth_provider.dart';
 import 'package:wildfire/src/providers/user_provider.dart';
+import 'package:wildfire/src/providers/calendar_provider.dart';
 import 'package:wildfire/src/utils/streak_utils.dart';
 
 part 'habit_provider.g.dart';
 
-  final HabitRepository habitRepository = HabitRepository();
+final HabitRepository habitRepository = HabitRepository();
 
 @riverpod
 class UserHabits extends _$UserHabits {
@@ -38,10 +38,11 @@ class UserHabits extends _$UserHabits {
     });
   }
 
-  void toggleCompletion(habitId, date) async {
+  void toggleCompletion(String habitId, String date) async {
     final token = ref.read(loginProvider).requireValue;
     final prevState = state.value;
     ref.read(loadingHabitsProvider.notifier).add(habitId);
+    ref.read(loadingDatesProvider.notifier).add(date);
     state = await AsyncValue.guard(() async {
       await habitRepository.toggleCompletion(token, habitId, date);
       return prevState!.map((habit) {
@@ -56,6 +57,7 @@ class UserHabits extends _$UserHabits {
       }).toList();
     });
     ref.read(loadingHabitsProvider.notifier).remove(habitId);
+    ref.read(loadingDatesProvider.notifier).remove(date);
   }
 
   void leaveHabit(String habitId) async {
