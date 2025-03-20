@@ -5,6 +5,7 @@ import 'package:wildfire/src/data/models/friend_model.dart';
 import 'package:wildfire/src/data/models/habit_model.dart';
 import 'package:wildfire/src/data/repositories/habit_repository.dart';
 import 'package:wildfire/src/providers/auth_provider.dart';
+import 'package:wildfire/src/providers/user_provider.dart';
 import 'package:wildfire/src/utils/streak_utils.dart';
 
 part 'habit_provider.g.dart';
@@ -55,6 +56,16 @@ class UserHabits extends _$UserHabits {
       }).toList();
     });
     ref.read(loadingHabitsProvider.notifier).remove(habitId);
+  }
+
+  void leaveHabit(String habitId) async {
+    final userId = ref.read(currUserProvider).requireValue!.id;
+    final prevState = state.value;
+    state = AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      await habitRepository.unlinkFriend(userId, habitId);
+      return prevState!.where((habit) => habitId != habit.id).toList();
+    });
   }
 
   void deleteHabit(String habitId) async {

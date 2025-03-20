@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:wildfire/src/presentation/widgets/delete_habit_dialog.dart';
 import 'package:wildfire/src/presentation/widgets/friends_tab.dart';
 import 'package:wildfire/src/presentation/widgets/habit_statistics.dart';
+import 'package:wildfire/src/presentation/widgets/leave_habit_dialog.dart';
 import 'package:wildfire/src/providers/habit_provider.dart';
+import 'package:wildfire/src/providers/user_provider.dart';
 
 class HabitScreen extends ConsumerWidget {
   const HabitScreen({super.key, required this.id});
@@ -26,31 +28,36 @@ class HabitScreen extends ConsumerWidget {
             ],
           ),
           actions: [
-            IconButton(
-              icon: Icon(Icons.delete_forever, color: Colors.red),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text("Are you sure?"),
-                      content: const Text("This habit will be deleted permanently"),
-                      actions: [
-                        TextButton(
-                          onPressed: () => context.pop(),
-                          child: const Text("Cancel"),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            ref.read(userHabitsProvider.notifier).deleteHabit(id);
-                            context.pop();
-                            context.pop();
-                          },
-                          child: const Text("Delete", style: TextStyle(color: Colors.red)),
-                        )
-                      ],
-                    );
-                  }
+            MenuAnchor(
+              menuChildren: [
+                (habit.createdBy == ref.read(currUserProvider).requireValue!.id)
+                ? MenuItemButton(
+                  onPressed: () => showDialog(
+                    context: context, 
+                    builder: (context) => DeleteHabitDialog(habitId: habit.id)
+                  ),
+                  leadingIcon: Icon(Icons.delete_forever),
+                  child: Text("Delete"),
+                )
+                : MenuItemButton(
+                  onPressed: () => showDialog(
+                    context: context,
+                    builder: (context) => LeaveHabitDialog(habitId: habit.id),
+                  ),
+                  leadingIcon: Icon(Icons.logout),
+                  child: Text("Leave"),
+                )
+              ],
+              builder: (context, controller, child) {
+                return IconButton(
+                  icon: Icon(Icons.more_vert),
+                  onPressed: () {
+                    if (controller.isOpen) {
+                      controller.close();
+                    } else {
+                      controller.open();
+                    }
+                  },
                 );
               },
             )

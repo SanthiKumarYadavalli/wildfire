@@ -55,6 +55,19 @@ class HabitService {
     }
   }
 
+  Future<void> unlinkFriend(userId, habitId) async {
+    final response = await delete(
+      Uri.parse("${Env.apiUrl}/user-habit/unlink/"),
+      body: {
+        "userId": userId,
+        "habitId": habitId
+      }
+    );
+    if (response.statusCode != 200) {
+      throw Exception("Failed to leave");
+    }
+  }
+
   Future<List<dynamic>> getFriends(habitId) async {
     final response = await get(Uri.parse("${Env.apiUrl}/user-habit/$habitId/members/"));
     if (response.statusCode == 200) {

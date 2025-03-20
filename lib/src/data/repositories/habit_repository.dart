@@ -38,6 +38,10 @@ class HabitRepository {
     await _habitService.deleteHabit(token, habitId);
   }
 
+  Future<void> unlinkFriend(String userId, String habitId) async {
+    await _habitService.unlinkFriend(userId, habitId);
+  }
+
   Future<List<Friend>> getFriends(String habitId) async {
     final friendsData = await _habitService.getFriends(habitId);
     return friendsData.map((friend) {
