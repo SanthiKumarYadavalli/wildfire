@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:wildfire/src/providers/user_provider.dart';
 
 class ProfileScreen extends ConsumerWidget {
@@ -10,6 +13,8 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final nameController = TextEditingController();
     final user = ref.watch(currUserProvider);
+    final ImagePicker picker = ImagePicker();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -31,12 +36,21 @@ class ProfileScreen extends ConsumerWidget {
                       bottom: 0,
                       right: 0,
                       child: Container(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(1),
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.primary,
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(Icons.edit, color: Theme.of(context).colorScheme.onPrimary),
+                        child: IconButton(
+                          icon: Icon(Icons.edit, color: Theme.of(context).colorScheme.onPrimary),
+                          onPressed: () async {
+                            final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+                            if (image == null) return;
+                            ref.read(currUserProvider.notifier).updateProfileImage(
+                              File(image.path),
+                            );
+                          },
+                        )
                       ),
                     )
                   ],
@@ -87,6 +101,7 @@ class ProfileScreen extends ConsumerWidget {
                                   const SizedBox(width: 10),
                                   TextButton(
                                     onPressed: () {
+                                      ref.read(currUserProvider.notifier).updateName(nameController.text);
                                       context.pop();
                                     },
                                     child: const Text('Save'),

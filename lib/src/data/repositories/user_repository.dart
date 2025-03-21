@@ -14,4 +14,12 @@ class UserRepository {
       profileImageUrl: userData['profilePic'],
     );
   }
+
+  Future<String> updateName(id, newName) async {
+    return (await userService.updateUser(id, {'name': newName}))['name'];
+  }
+
+  Future<String> updateProfileImage(id, image) async {
+    return (await userService.updateUser(id, {'image': image}))['profilePic'];
+  }
 }
