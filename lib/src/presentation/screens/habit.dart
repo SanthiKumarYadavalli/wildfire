@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wildfire/src/presentation/widgets/delete_habit_dialog.dart';
+import 'package:wildfire/src/presentation/widgets/edit_habit_form.dart';
 import 'package:wildfire/src/presentation/widgets/friends_tab.dart';
 import 'package:wildfire/src/presentation/widgets/habit_statistics.dart';
 import 'package:wildfire/src/presentation/widgets/leave_habit_dialog.dart';
@@ -16,6 +17,7 @@ class HabitScreen extends ConsumerWidget {
     final habits = ref.watch(userHabitsProvider).requireValue;
     final habit = habits.firstWhere((element) => element.id == id);
     final friendStats = ref.watch(habitFriendsProvider(habit.id));
+    final isCreator = habit.createdBy == ref.read(currUserProvider).requireValue!.id;
 
     return DefaultTabController(
       length: 2,
@@ -31,12 +33,30 @@ class HabitScreen extends ConsumerWidget {
           actions: [
             MenuAnchor(
               menuChildren: [
-                (habit.createdBy == ref.read(currUserProvider).requireValue!.id)
+                isCreator 
+                ?  MenuItemButton(
+                    leadingIcon: Icon(Icons.edit),
+                    child: Text("Edit"),
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.zero)
+                        ),
+                        builder: (context) {
+                          return EditHabitForm(habit: habit);
+                        },
+                      );
+                    },
+                  )
+                : Container(),
+                isCreator
                 ? MenuItemButton(
                   onPressed: () => showDialog(
                     context: context, 
                     builder: (context) => DeleteHabitDialog(habitId: habit.id)
-                  ),
+                  ),  
                   leadingIcon: Icon(Icons.delete_forever),
                   child: Text("Delete"),
                 )

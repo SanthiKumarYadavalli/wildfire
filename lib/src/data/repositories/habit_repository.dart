@@ -34,6 +34,10 @@ class HabitRepository {
     await _habitService.toggleCompletion(token, habitId, date);
   }
 
+  Future<Map<String, dynamic>> updateHabit(String habitId, Map<String, dynamic> data) async {
+    return await _habitService.updateHabit(habitId, data);
+  }
+
   Future<void> deleteHabit(String token, String habitId) async {
     await _habitService.deleteHabit(token, habitId);
   }

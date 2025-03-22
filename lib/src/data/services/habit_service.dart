@@ -43,12 +43,21 @@ class HabitService {
     }
   }
 
+  Future<Map<String, dynamic>> updateHabit(habitId, data) async {
+    final response = await put(
+      Uri.parse("${Env.apiUrl}/habit/$habitId/"),
+      body: data,
+    );
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    } else {
+      throw Exception("Failed to update habit");
+    }
+  }
+
   Future<void> deleteHabit(token, habitId) async {
     final response = await delete(
-      Uri.parse("${Env.apiUrl}/habit/delete/"),
-      body: {
-        "id": habitId,
-      }
+      Uri.parse("${Env.apiUrl}/habit/$habitId/"),
     );
     if (response.statusCode != 200) {
       throw Exception("Failed to delete habit");

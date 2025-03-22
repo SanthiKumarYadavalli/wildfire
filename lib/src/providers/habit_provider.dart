@@ -79,6 +79,23 @@ class UserHabits extends _$UserHabits {
       return prevState!.where((habit) => habit.id != habitId).toList();
     });
   }
+
+  void updateHabit(String habitId, data) async {
+    final prevState = state.value;
+    state = AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      final updatedHabit = await habitRepository.updateHabit(habitId, data);
+      return prevState!.map((habit) {
+        if (habit.id == habitId) {
+          return habit.copyWith(
+            title: updatedHabit['title'],
+            description: updatedHabit['description'],
+          );
+        }
+        return habit;
+      }).toList();
+    });
+  }
 }
 
 @riverpod
