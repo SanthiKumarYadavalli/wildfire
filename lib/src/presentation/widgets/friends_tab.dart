@@ -29,7 +29,7 @@ class FriendsTab extends ConsumerWidget {
               child: Column(
                 children: [
                   DropdownMenu(
-                    initialSelection: "week",
+                    initialSelection: displayValue,
                     dropdownMenuEntries: [
                       DropdownMenuEntry(label: "This Week", value: "week"),
                       DropdownMenuEntry(label: "This Month", value: "month"),

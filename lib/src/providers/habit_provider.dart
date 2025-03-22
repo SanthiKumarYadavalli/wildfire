@@ -114,6 +114,7 @@ class HabitFriends extends _$HabitFriends {
       currStats['year'] = completions["year"];
       friendStats.add(currStats);
     }
+    friendStats.sort((a, b) => b['week'].compareTo(a['week']));
     return friendStats;
   }
 
