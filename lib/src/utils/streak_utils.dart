@@ -19,8 +19,8 @@ List<DateTime> getSortedDates(Map<String, int> dates) {
     }
   }
   maxStreak = streak > maxStreak ? streak : maxStreak;
-  // If the last date is not today, the streak is broken
-  if (DateTime.now().difference(sortedDates.last).inDays >= 1) {
+  // If the last completion was not today or yesterday, the streak is broken
+  if (DateTime.now().difference(sortedDates.last).inDays > 1) {
     streak = 0;
   }
   return (streak, maxStreak);
