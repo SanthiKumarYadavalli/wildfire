@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wildfire/src/providers/user_provider.dart';
 
@@ -46,8 +47,22 @@ class ProfileScreen extends ConsumerWidget {
                           onPressed: () async {
                             final XFile? image = await picker.pickImage(source: ImageSource.gallery);
                             if (image == null) return;
+                            CroppedFile? cropped = await ImageCropper().cropImage(
+                              sourcePath: image.path,
+                              uiSettings: [
+                                AndroidUiSettings(
+                                  lockAspectRatio: true,
+                                  initAspectRatio: CropAspectRatioPreset.square,
+                                  hideBottomControls: true,
+                                  aspectRatioPresets: [
+                                    CropAspectRatioPreset.square
+                                  ],
+                                )
+                              ],
+                            );
+                            if (cropped == null) return;
                             ref.read(currUserProvider.notifier).updateProfileImage(
-                              File(image.path),
+                              File(cropped.path),
                             );
                           },
                         )
