@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wildfire/src/presentation/widgets/name_edit.dart';
 import 'package:wildfire/src/presentation/widgets/profile_pic_edit.dart';
+import 'package:wildfire/src/providers/auth_provider.dart';
 import 'package:wildfire/src/providers/user_provider.dart';
 
 class ProfileScreen extends ConsumerWidget {
@@ -14,6 +16,31 @@ class ProfileScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              showDialog(
+                context: context, 
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text('Logout'),
+                    content: const Text('Are you sure you want to logout?'),
+                    actions: [
+                      TextButton(onPressed: () => context.pop(), child: const Text('Cancel')),
+                      TextButton(
+                        onPressed: () {
+                          ref.read(loginProvider.notifier).logout();
+                        }, 
+                        child: const Text('Logout')
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          )
+        ],
       ),
       body: user.when(
         data: (user) => Container(
