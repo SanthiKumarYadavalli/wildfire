@@ -352,5 +352,148 @@ final friendsDisplayValueProvider =
 );
 
 typedef _$FriendsDisplayValue = AutoDisposeNotifier<String>;
+String _$joinFriendHash() => r'61c48b32de7e97f0dfcbfdc8dc16f040a846cc66';
+
+abstract class _$JoinFriend extends BuildlessAutoDisposeAsyncNotifier<bool> {
+  late final String habitId;
+
+  FutureOr<bool> build(
+    String habitId,
+  );
+}
+
+/// See also [JoinFriend].
+@ProviderFor(JoinFriend)
+const joinFriendProvider = JoinFriendFamily();
+
+/// See also [JoinFriend].
+class JoinFriendFamily extends Family<AsyncValue<bool>> {
+  /// See also [JoinFriend].
+  const JoinFriendFamily();
+
+  /// See also [JoinFriend].
+  JoinFriendProvider call(
+    String habitId,
+  ) {
+    return JoinFriendProvider(
+      habitId,
+    );
+  }
+
+  @override
+  JoinFriendProvider getProviderOverride(
+    covariant JoinFriendProvider provider,
+  ) {
+    return call(
+      provider.habitId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'joinFriendProvider';
+}
+
+/// See also [JoinFriend].
+class JoinFriendProvider
+    extends AutoDisposeAsyncNotifierProviderImpl<JoinFriend, bool> {
+  /// See also [JoinFriend].
+  JoinFriendProvider(
+    String habitId,
+  ) : this._internal(
+          () => JoinFriend()..habitId = habitId,
+          from: joinFriendProvider,
+          name: r'joinFriendProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$joinFriendHash,
+          dependencies: JoinFriendFamily._dependencies,
+          allTransitiveDependencies:
+              JoinFriendFamily._allTransitiveDependencies,
+          habitId: habitId,
+        );
+
+  JoinFriendProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.habitId,
+  }) : super.internal();
+
+  final String habitId;
+
+  @override
+  FutureOr<bool> runNotifierBuild(
+    covariant JoinFriend notifier,
+  ) {
+    return notifier.build(
+      habitId,
+    );
+  }
+
+  @override
+  Override overrideWith(JoinFriend Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: JoinFriendProvider._internal(
+        () => create()..habitId = habitId,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        habitId: habitId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<JoinFriend, bool> createElement() {
+    return _JoinFriendProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is JoinFriendProvider && other.habitId == habitId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, habitId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin JoinFriendRef on AutoDisposeAsyncNotifierProviderRef<bool> {
+  /// The parameter `habitId` of this provider.
+  String get habitId;
+}
+
+class _JoinFriendProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<JoinFriend, bool>
+    with JoinFriendRef {
+  _JoinFriendProviderElement(super.provider);
+
+  @override
+  String get habitId => (origin as JoinFriendProvider).habitId;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

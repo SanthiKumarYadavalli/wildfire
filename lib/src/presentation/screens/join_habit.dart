@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wildfire/src/providers/habit_provider.dart';
 
 class HabitJoinScreen extends ConsumerWidget {
@@ -9,6 +10,8 @@ class HabitJoinScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final habitProvider = ref.watch(getHabitProvider(id));
+    final joinFriend = ref.watch(joinFriendProvider(id));
+
     ref.listen(getHabitProvider(id), (_, state) {
       if (state is AsyncError) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -69,7 +72,12 @@ class HabitJoinScreen extends ConsumerWidget {
                 Center(
                   child: ElevatedButton(
                     onPressed: () {
-                      
+                      if (joinFriend.value == false) {
+                        ref.read(joinFriendProvider(id).notifier).join();
+                      } else {
+                        ref.invalidate(userHabitsProvider);
+                        context.go("/");
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(300, 60),
@@ -78,12 +86,14 @@ class HabitJoinScreen extends ConsumerWidget {
                       ),
                       backgroundColor: Theme.of(context).colorScheme.primary,
                     ),
-                    child: Text(
-                      'JOIN HABIT',
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: Colors.white,
+                    child: joinFriend.when(
+                      data: (isJoined) => Text(
+                        isJoined ? 'Go to Home' : 'JOIN',
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white),
                       ),
-                    ),
+                      loading: () => const CircularProgressIndicator(color: Colors.white),
+                      error: (error, _) => Text('JOIN HABIT!', style: TextStyle(color: Colors.white)),
+                    )
                   ),
                 ),
                 const SizedBox(height: 16),

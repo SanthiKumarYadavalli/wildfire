@@ -161,3 +161,22 @@ FutureOr<Habit> getHabit(Ref ref, String habitId) async {
   final habit = await habitRepository.getHabit(habitId);
   return habit;
 }
+
+@riverpod
+class JoinFriend extends _$JoinFriend {
+  @override
+  FutureOr<bool> build(String habitId) async {
+    final habits = await ref.watch(userHabitsProvider.future);
+    return habits.any((habit) => habit.id == habitId);
+  }
+
+  void join() async {
+    final token = ref.read(loginProvider).requireValue;
+    final userId = JwtDecoder.decode(token)['id'];
+    state = AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      await habitRepository.joinFriend(userId, habitId);
+      return true;
+    });
+  }
+}

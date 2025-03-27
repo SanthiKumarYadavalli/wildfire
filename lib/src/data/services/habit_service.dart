@@ -94,4 +94,17 @@ class HabitService {
       throw Exception("Failed to get habit");
     }
   }
+
+  Future<void> joinFriend(userId, habitId) async {
+    final response = await post(
+      Uri.parse("${Env.apiUrl}/user-habit/link/"),
+      body: {
+        "userId": userId,
+        "habitId": habitId
+      }
+    );
+    if (response.statusCode != 201) {
+      throw Exception("Failed to join");
+    }
+  }
 }

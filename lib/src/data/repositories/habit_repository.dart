@@ -72,4 +72,8 @@ class HabitRepository {
       dates: {}
     );
   }
+
+  Future<void> joinFriend(String token, String habitId) async {
+    await _habitService.joinFriend(token, habitId);
+  }
 }

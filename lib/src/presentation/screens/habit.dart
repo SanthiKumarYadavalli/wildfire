@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:wildfire/src/presentation/widgets/delete_habit_dialog.dart';
 import 'package:wildfire/src/presentation/widgets/edit_habit_form.dart';
 import 'package:wildfire/src/presentation/widgets/friends_tab.dart';
@@ -37,7 +37,9 @@ class HabitScreen extends ConsumerWidget {
                 MenuItemButton(
                   leadingIcon: Icon(Icons.person_add),
                   child: Text("Add"),
-                  onPressed: () => context.go("/join/${habit.id}"),
+                  onPressed: () {
+                    Share.share("Join my habit: ${habit.title} at https://wildfire-client.vercel.app/join/${habit.id}");
+                  },
                 ),
                 isCreator 
                 ?  MenuItemButton(
