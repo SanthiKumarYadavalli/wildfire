@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wildfire/src/presentation/widgets/delete_habit_dialog.dart';
 import 'package:wildfire/src/presentation/widgets/edit_habit_form.dart';
 import 'package:wildfire/src/presentation/widgets/friends_tab.dart';
@@ -33,6 +34,11 @@ class HabitScreen extends ConsumerWidget {
           actions: [
             MenuAnchor(
               menuChildren: [
+                MenuItemButton(
+                  leadingIcon: Icon(Icons.person_add),
+                  child: Text("Add"),
+                  onPressed: () => context.go("/join/${habit.id}"),
+                ),
                 isCreator 
                 ?  MenuItemButton(
                     leadingIcon: Icon(Icons.edit),

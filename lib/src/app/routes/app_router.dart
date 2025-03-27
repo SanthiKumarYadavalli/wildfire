@@ -2,6 +2,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import "package:go_router/go_router.dart";
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wildfire/src/presentation/screens/join_habit.dart';
 import 'package:wildfire/src/presentation/screens/profile.dart';
 import 'package:wildfire/src/presentation/screens/habit.dart';
 import 'package:wildfire/src/presentation/screens/signup.dart';
@@ -39,6 +40,10 @@ GoRouter router(ref) {
     GoRoute(
       path: "/habit/:id",
       builder: (context, state) => HabitScreen(id: state.pathParameters['id']!),
+    ),
+    GoRoute(
+      path: "/join/:id",
+      builder: (context, state) => HabitJoinScreen(id: state.pathParameters['id']!),
     ),
     GoRoute(
       path: "/profile",

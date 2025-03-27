@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wildfire/src/data/models/friend_model.dart';
@@ -153,4 +154,10 @@ class FriendsDisplayValue extends _$FriendsDisplayValue {
   void update(String value) {
     state = value;
   }
+}
+
+@riverpod
+FutureOr<Habit> getHabit(Ref ref, String habitId) async {
+  final habit = await habitRepository.getHabit(habitId);
+  return habit;
 }

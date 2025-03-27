@@ -85,4 +85,13 @@ class HabitService {
       throw Exception("Failed to get friends");
     }
   }
+
+  Future<Map<String, dynamic>> getHabit(habitId) async {
+    final response = await get(Uri.parse("${Env.apiUrl}/habit/$habitId/"));
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    } else {
+      throw Exception("Failed to get habit");
+    }
+  }
 }

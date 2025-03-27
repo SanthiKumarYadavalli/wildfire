@@ -61,4 +61,15 @@ class HabitRepository {
       );
     }).toList();
   }
+
+  Future<Habit> getHabit(String habitId) async {
+    final habitData = await _habitService.getHabit(habitId);
+    return Habit(
+      id: habitData['_id'],
+      title: habitData['title'],
+      description: habitData['description'],
+      createdBy: habitData['createdBy']["name"],
+      dates: {}
+    );
+  }
 }
