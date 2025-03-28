@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wildfire/src/presentation/screens/error.dart';
 import 'package:wildfire/src/presentation/widgets/name_edit.dart';
 import 'package:wildfire/src/presentation/widgets/profile_pic_edit.dart';
 import 'package:wildfire/src/providers/auth_provider.dart';
@@ -68,7 +69,10 @@ class ProfileScreen extends ConsumerWidget {
           ),
         ),
         loading: () => const CircularProgressIndicator(),
-        error: (error, _) => Text('Error: $error'),
+        error: (error, _) => ErrorScreen(
+          errorMsg: "Can't load user",
+          provider: currUserProvider,
+        ),
       )
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wildfire/src/presentation/screens/error.dart';
 import 'package:wildfire/src/providers/habit_provider.dart';
 
 class FriendsTab extends ConsumerWidget {
@@ -68,7 +69,10 @@ class FriendsTab extends ConsumerWidget {
         );
       },
       loading: () => Center(child: CircularProgressIndicator()),
-      error: (error, _) => Center(child: Text("Failed to get friends")),
+      error: (error, _) => ErrorScreen(
+        errorMsg: "Can't get friends",
+        provider: habitFriendsProvider(habitId)
+      )
     );
   }
 }

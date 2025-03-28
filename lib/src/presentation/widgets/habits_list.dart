@@ -83,7 +83,9 @@ class HabitsList extends ConsumerWidget {
                             },
                     ),
                     onTap: () {
-                      context.push("/habit/${habit.id}");
+                      isLoading
+                      ? null
+                      : context.push("/habit/${habit.id}");
                     },
                   ),
                 );

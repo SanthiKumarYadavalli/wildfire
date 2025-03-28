@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wildfire/src/presentation/screens/create_habit.dart';
+import 'package:wildfire/src/presentation/screens/error.dart';
 import 'package:wildfire/src/presentation/widgets/appbar_home.dart';
 import 'package:wildfire/src/presentation/widgets/habits_list.dart';
 import 'package:wildfire/src/providers/habit_provider.dart';
@@ -38,7 +39,10 @@ class HomeScreen extends ConsumerWidget {
             return HabitsList(data: data);
           },
           loading: () => CircularProgressIndicator(),
-          error: (error, stackTrace) => Text("Error: $error"),
+          error: (error, stackTrace) => ErrorScreen(
+            errorMsg: "Can't load habits",
+            provider: userHabitsProvider,
+          )
         )
       ),
     );
