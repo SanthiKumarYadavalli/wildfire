@@ -13,7 +13,7 @@ class CurrUser extends _$CurrUser {
   final UserRepository _userRepository = UserRepository();
   @override
   FutureOr<User?> build() async {
-    final token = ref.read(loginProvider).requireValue;
+    final token = await ref.watch(loginProvider.future);
     if (token != '') {
       final Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
       final theUser = await _userRepository.getUser(decodedToken['id']);

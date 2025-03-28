@@ -17,7 +17,7 @@ final HabitRepository habitRepository = HabitRepository();
 class UserHabits extends _$UserHabits {
   @override
   FutureOr<List<Habit>> build() async {
-    final token = ref.read(loginProvider).requireValue;
+    final token = await ref.watch(loginProvider.future);
     if (token != '') {
       final Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
       final habits = await habitRepository.getHabits(decodedToken['id']);
@@ -171,7 +171,7 @@ class JoinFriend extends _$JoinFriend {
   }
 
   void join() async {
-    final token = ref.read(loginProvider).requireValue;
+    final token = await ref.watch(loginProvider.future);
     final userId = JwtDecoder.decode(token)['id'];
     state = AsyncValue.loading();
     state = await AsyncValue.guard(() async {

@@ -92,7 +92,7 @@ class HabitJoinScreen extends ConsumerWidget {
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white),
                       ),
                       loading: () => const CircularProgressIndicator(color: Colors.white),
-                      error: (error, _) => Text('JOIN HABIT!', style: TextStyle(color: Colors.white)),
+                      error: (error, _) => Text(error.toString(), style: TextStyle(color: Colors.white)),
                     )
                   ),
                 ),
