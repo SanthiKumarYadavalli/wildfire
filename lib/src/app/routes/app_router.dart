@@ -18,43 +18,46 @@ GoRouter router(ref) {
   auth.whenData((data) {
     FlutterNativeSplash.remove();
   });
-  return GoRouter(routes: [
-    GoRoute(
-      path: "/login",
-      builder: (context, state) => LoginScreen(),
-    ),
-    GoRoute(
-      path: "/signup",
-      builder: (context, state) => SignupScreen(),
-    ),
-    GoRoute(
-      path: '/',
-      builder: (context, state) => HomeScreen(),
-      redirect: (context, state) {
-        if (auth is AsyncData && auth.value != "") {
-          return null;
-        }
-        return '/login';
+  return GoRouter(
+    routes: [
+      GoRoute(
+        path: "/login",
+        builder: (context, state) => LoginScreen(),
+      ),
+      GoRoute(
+        path: "/signup",
+        builder: (context, state) => SignupScreen(),
+      ),
+      GoRoute(
+        path: '/',
+        builder: (context, state) => HomeScreen(),
+      ),
+      GoRoute(
+        path: "/habit/:id",
+        builder: (context, state) => HabitScreen(id: state.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: "/join/:id",
+        builder: (context, state) => HabitJoinScreen(id: state.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: "/profile",
+        builder: (context, state) => ProfileScreen(),
+      )
+    ],
+    redirect: (context, state) {
+      final AsyncValue<String> authState = ref.read(loginProvider);
+      final loggedIn = authState.maybeWhen(
+        data: (data) => data != "" && !JwtDecoder.isExpired(data),
+        orElse: () => false,
+      );
+      final isLoginPage = state.matchedLocation == "/login" || state.matchedLocation == "/signup";
+      if (loggedIn && isLoginPage) {
+        return "/";
+      } else if (!loggedIn && !isLoginPage) {
+        return "/login";
       }
-    ),
-    GoRoute(
-      path: "/habit/:id",
-      builder: (context, state) => HabitScreen(id: state.pathParameters['id']!),
-    ),
-    GoRoute(
-      path: "/join/:id",
-      builder: (context, state) => HabitJoinScreen(id: state.pathParameters['id']!),
-    ),
-    GoRoute(
-      path: "/profile",
-      builder: (context, state) => ProfileScreen(),
-    )
-  ],
-  redirect: (context, state) {
-    if (auth is AsyncData && auth.value != "" && JwtDecoder.isExpired(auth.value!)) {
-      return '/login';
+      return null;
     }
-    return null;
-  }
   );
 }
