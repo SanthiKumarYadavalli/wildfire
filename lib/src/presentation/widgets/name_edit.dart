@@ -11,13 +11,19 @@ class NameEdit extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final nameController = TextEditingController();
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return ListTile(
-      title: const Text('Name'),
-      subtitle: Text(user.name),
-      titleTextStyle: TextStyle(color: Colors.black, fontSize: 15),
-      subtitleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
-      leading: Icon(Icons.person),
-      trailing: Icon(Icons.edit),
+      title: Text(
+        'Name',
+        style: textTheme.labelLarge?.copyWith(color: colorScheme.onSurfaceVariant),
+      ),
+      subtitle: Text(
+        user.name,
+        style: textTheme.bodyLarge?.copyWith(color: colorScheme.onSurfaceVariant)
+      ),
+      leading: Icon(Icons.person, color: colorScheme.secondary),
+      trailing: Icon(Icons.edit, color: colorScheme.secondary),
       onTap: () {
         nameController.text = user.name;
         nameController.selection = TextSelection(baseOffset: 0, extentOffset: user.name.length);

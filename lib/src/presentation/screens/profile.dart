@@ -12,28 +12,38 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(currUserProvider);
+    final userAsyncValue = ref.watch(currUserProvider);
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout_outlined),
+            tooltip: 'Logout',
             onPressed: () {
               showDialog(
-                context: context, 
-                builder: (context) {
-                  return AlertDialog(
+                context: context,
+                builder: (dialogContext) {
+                  return AlertDialog.adaptive(
                     title: const Text('Logout'),
                     content: const Text('Are you sure you want to logout?'),
                     actions: [
-                      TextButton(onPressed: () => context.pop(), child: const Text('Cancel')),
                       TextButton(
+                        onPressed: () => context.pop(),
+                        child: const Text('Cancel'),
+                      ),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          foregroundColor: colorScheme.error,
+                        ),
                         onPressed: () {
                           ref.read(loginProvider.notifier).logout();
-                        }, 
-                        child: const Text('Logout')
+                          context.pop();
+                        },
+                        child: const Text('Logout'),
                       ),
                     ],
                   );
@@ -43,37 +53,62 @@ class ProfileScreen extends ConsumerWidget {
           )
         ],
       ),
-      body: user.when(
-        data: (user) => Container(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              ProfilePicEdit(user: user!),
-              const SizedBox(height: 30),
-              NameEdit(user: user),
-              ListTile(
-                title: const Text('Username'),
-                subtitle: Text(user.username),
-                titleTextStyle: TextStyle(color: Colors.black, fontSize: 15),
-                subtitleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
-                leading: Icon(Icons.tag),
+      body: userAsyncValue.when(
+        // ----- Data State -----
+        data: (user) {
+          if (user == null) {
+            return Center(
+              child: Text(
+                'User data not available.',
+                style: textTheme.bodyLarge?.copyWith(color: colorScheme.outline),
               ),
+            );
+          }
+          // Use ListView for scrollability, especially on smaller screens
+          return ListView(
+            padding: const EdgeInsets.all(16.0),
+            children: [
+              Center(child: ProfilePicEdit(user: user)),
+              const SizedBox(height: 24),
+              Center(child: NameEdit(user: user)),
               ListTile(
-                title: const Text('Email'),
-                subtitle: Text(user.email),
-                titleTextStyle: TextStyle(color: Colors.black, fontSize: 15),
-                subtitleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
-                leading: Icon(Icons.email),
-              )
+                leading: Icon(Icons.alternate_email, color: colorScheme.secondary),
+                title: Text(
+                  'Username',
+                   style: textTheme.labelLarge?.copyWith(color: colorScheme.onSurfaceVariant),
+                ),
+                subtitle: Text(
+                  user.username,
+                  style: textTheme.bodyLarge,
+                ),
+              ),
+
+              ListTile(
+                leading: Icon(Icons.email_outlined, color: colorScheme.secondary),
+                title: Text(
+                  'Email',
+                  style: textTheme.labelLarge?.copyWith(color: colorScheme.onSurfaceVariant),
+                ),
+                subtitle: Text(
+                  user.email,
+                  style: textTheme.bodyLarge,
+                ),
+              ),
             ],
-          ),
-        ),
-        loading: () => const CircularProgressIndicator(),
-        error: (error, _) => ErrorScreen(
-          errorMsg: "Can't load user",
-          provider: currUserProvider,
-        ),
-      )
+          );
+        },
+        // ----- Loading State -----
+        loading: () => const Center(child: CircularProgressIndicator()), // Center the indicator
+
+        // ----- Error State -----
+        error: (error, stackTrace) {
+           debugPrint("Error loading user: $error\n$stackTrace");
+           return ErrorScreen(
+             errorMsg: "Couldn't load profile",
+             provider: currUserProvider,
+           );
+        },
+      ),
     );
   }
 }
