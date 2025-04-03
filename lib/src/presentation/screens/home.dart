@@ -15,7 +15,7 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(161),
+        preferredSize: const Size.fromHeight(177),
         child: AppBarHome(),
       ),
       floatingActionButton: FloatingActionButton(
