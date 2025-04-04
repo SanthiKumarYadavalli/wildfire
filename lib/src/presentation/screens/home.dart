@@ -5,12 +5,14 @@ import 'package:wildfire/src/presentation/screens/error.dart';
 import 'package:wildfire/src/presentation/widgets/appbar_home.dart';
 import 'package:wildfire/src/presentation/widgets/habits_list.dart';
 import 'package:wildfire/src/providers/habit_provider.dart';
+import 'package:wildfire/src/utils/updater.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    checkForAppUpdates(context);
     final habits = ref.watch(userHabitsProvider);
     return Scaffold(
       resizeToAvoidBottomInset: true,
