@@ -11,4 +11,12 @@ class AuthRepository {
   Future<void> signup(data) async {
     await authService.signupUser(data['name'], data['username'], data['email'], data['password']);
   }
+
+  Future<void> sendPasswordResetEmail(String email) async {
+    await authService.sendPasswordResetEmail(email);
+  }
+  
+  Future<void> resetPassword(String token, String password) async {
+    await authService.resetPassword(token, password);
+  }
 }

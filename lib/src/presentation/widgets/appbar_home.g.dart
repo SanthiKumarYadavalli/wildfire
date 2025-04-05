@@ -6,7 +6,7 @@ part of 'appbar_home.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$calControllerHash() => r'4c641cf2d8ec3234e1e7982a3cabddbc400fb901';
+String _$calControllerHash() => r'cd50de91a3b6ccf3b98dee40d438dfa520486af2';
 
 /// See also [calController].
 @ProviderFor(calController)

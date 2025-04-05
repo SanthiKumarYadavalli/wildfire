@@ -47,3 +47,35 @@ class Signup extends _$Signup {
     });
   }
 }
+
+@riverpod
+class ForgotPassword extends _$ForgotPassword {
+  @override
+  FutureOr<bool> build() {
+    return false;
+  }
+
+  Future<void> sendPasswordResetEmail(String email) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      await authRepository.sendPasswordResetEmail(email);
+      return true;
+    });
+  }
+}
+
+@riverpod
+class ResetPassword extends _$ResetPassword {
+  @override
+  FutureOr<bool> build() {
+    return false;
+  }
+
+  Future<void> resetPassword(String token, String password) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      await authRepository.resetPassword(token, password);
+      return true;
+    });
+  }
+}

@@ -54,7 +54,16 @@ class LoginScreen extends ConsumerWidget {
               ),
               SizedBox(height: 10),
               PasswordField(controller: _passwordController),
-              SizedBox(height: 20),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    context.push('/forgot-password');
+                  },
+                  child: const Text('Forgot Password?'),
+                ),
+              ),
+              SizedBox(height: 10),
               AuthButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {

@@ -32,4 +32,28 @@ class AuthService {
       throw Exception("Failed to signup");
     }
   }
+
+  Future<void> sendPasswordResetEmail(String email) async {
+    final response = await post(
+      Uri.parse("${Env.apiUrl}/user/forgot-password"),
+      body: {
+        'email': email,
+      }
+    );
+    if (response.statusCode != 200) {
+      throw Exception("Failed to send password reset email");
+    }
+  }
+
+  Future<void> resetPassword(String token, String password) async {
+    final response = await post(
+      Uri.parse("${Env.apiUrl}/user/reset-password/$token"),
+      body: {
+        'newPassword': password,
+      }
+    );
+    if (response.statusCode != 200) {
+      throw Exception("Failed to reset password");
+    }
+  }
 }

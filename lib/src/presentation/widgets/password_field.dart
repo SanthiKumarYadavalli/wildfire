@@ -17,8 +17,10 @@ class ShowPassword extends _$ShowPassword {
 }
 
 class PasswordField extends ConsumerWidget {
-  const PasswordField({super.key, required this.controller});
+  const PasswordField({super.key, required this.controller, this.labelText, this.validator});
   final TextEditingController controller;
+  final String? labelText;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,7 +28,7 @@ class PasswordField extends ConsumerWidget {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
-        labelText: 'Password',
+        labelText: labelText ?? 'Password',
         prefixIcon: const Icon(Icons.lock),
         border: const OutlineInputBorder(),
         suffixIcon: IconButton(
@@ -39,12 +41,9 @@ class PasswordField extends ConsumerWidget {
         ),
       ),
       obscureText: obscurePassword,
-      validator: (value) {
+      validator: validator ?? (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter a password';
-        }
-        if (value.length <= 1) {
-          return 'Password must be at least 1 character';
         }
         return null;
       },

@@ -156,7 +156,7 @@ class _GetHabitProviderElement extends AutoDisposeFutureProviderElement<Habit>
   String get habitId => (origin as GetHabitProvider).habitId;
 }
 
-String _$userHabitsHash() => r'ead16511a9bd8ab4a9c17fd728f156a5f09e18f5';
+String _$userHabitsHash() => r'6c201ad0f4d0116fd413289b58d964906fa8f2d7';
 
 /// See also [UserHabits].
 @ProviderFor(UserHabits)
@@ -352,7 +352,7 @@ final friendsDisplayValueProvider =
 );
 
 typedef _$FriendsDisplayValue = AutoDisposeNotifier<String>;
-String _$joinFriendHash() => r'61c48b32de7e97f0dfcbfdc8dc16f040a846cc66';
+String _$joinFriendHash() => r'ce1348bb108410bff63a1296e592415afef24c7d';
 
 abstract class _$JoinFriend extends BuildlessAutoDisposeAsyncNotifier<bool> {
   late final String habitId;
