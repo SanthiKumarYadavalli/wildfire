@@ -5,74 +5,186 @@ import 'package:wildfire/src/providers/habit_provider.dart';
 
 class FriendsTab extends ConsumerWidget {
   const FriendsTab({super.key, required this.habitId, required this.friendStats});
+
   final String habitId;
   final AsyncValue<List<Map<String, dynamic>>> friendStats;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final displayValue = ref.watch(friendsDisplayValueProvider);
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
     ref.listen(habitFriendsProvider(habitId), (_, state) {
-      if (state is AsyncError) {
+      if (state is AsyncError && !state.isLoading) {
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Failed to get friends"),
+          content: Text("Failed to update friends list: ${state.error}"),
+          backgroundColor: colorScheme.errorContainer,
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.fromLTRB(15, 5, 15, 10),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ));
       }
     });
+
+    final Map<String, String> options = {
+      'week': 'This Week',
+      'month': 'This Month',
+      'year': 'This Year',
+      'streak': 'Streak',
+    };
+
     return friendStats.when(
-      data: (friendStats) {
+      data: (statsList) {
         return RefreshIndicator(
-          onRefresh: () => ref.refresh(habitFriendsProvider(habitId).future),
-          child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            child: Container(
-              height: MediaQuery.of(context).size.height - 200,
-              padding: EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  DropdownMenu(
-                    initialSelection: displayValue,
-                    dropdownMenuEntries: [
-                      DropdownMenuEntry(label: "This Week", value: "week"),
-                      DropdownMenuEntry(label: "This Month", value: "month"),
-                      DropdownMenuEntry(label: "This Year", value: "year"),
-                      DropdownMenuEntry(label: "Streak", value: "streak"),
+          color: colorScheme.primary,
+          onRefresh: () async {
+            ref.invalidate(habitFriendsProvider(habitId));
+            await ref.read(habitFriendsProvider(habitId).future);
+          },
+          child: CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: [
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Friends' Progress",
+                        style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: 16),
+                      Wrap(
+                        spacing: 8.0,
+                        runSpacing: 4.0,
+                        children: options.entries.map((entry) {
+                          final bool isSelected = entry.key == displayValue;
+                          return ChoiceChip(
+                            label: Text(entry.value),
+                            selected: isSelected,
+                            onSelected: (selected) {
+                              if (selected) {
+                                ref.read(friendsDisplayValueProvider.notifier).update(entry.key);
+                                ref.read(habitFriendsProvider(habitId).notifier).sortBySelectedValue(entry.key);
+                              }
+                            },
+                            labelStyle: textTheme.labelLarge?.copyWith(
+                              color: isSelected ? colorScheme.onSecondaryContainer : colorScheme.onSurfaceVariant,
+                            ),
+                            selectedColor: colorScheme.secondaryContainer,
+                            side: isSelected ? null : BorderSide(color: colorScheme.outlineVariant),
+                            showCheckmark: false,
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          );
+                        }).toList(),
+                      ),
+                      const SizedBox(height: 16),
                     ],
-                    onSelected: (value) {
-                      ref.read(friendsDisplayValueProvider.notifier).update(value!);
-                      ref.read(habitFriendsProvider(habitId).notifier).sortBySelectedValue(value);
-                    },
                   ),
-                  SizedBox(height: 10),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: friendStats.length,
-                      itemBuilder: (context, index) {
-                        final friend = friendStats[index]['friend'];
-                        return ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage:
-                                NetworkImage(friend.profile.profileImageUrl),
+                ),
+              ),
+
+              if (statsList.isEmpty)
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.people_outline, size: 50, color: colorScheme.secondary),
+                          const SizedBox(height: 16),
+                          Text(
+                            "No friends' stats available.",
+                            style: textTheme.titleMedium?.copyWith(color: colorScheme.onSurfaceVariant),
+                            textAlign: TextAlign.center,
                           ),
-                          title: Text(friend.profile.name),
-                          trailing: Text(
-                            friendStats[index][displayValue].toString(),
-                            style: TextStyle(fontSize: 20),
+                          const SizedBox(height: 8),
+                          Text(
+                            "Invite friends or pull down to refresh.",
+                            style: textTheme.bodyMedium?.copyWith(color: colorScheme.outline),
+                            textAlign: TextAlign.center,
                           ),
-                        );
-                      },
+                        ],
+                      ),
                     ),
                   ),
-                ],
-              ),
-            ),
+                )
+              else
+                SliverList.separated(
+                  itemCount: statsList.length,
+                  separatorBuilder: (_, __) => const Divider(height: 1, indent: 16, endIndent: 16),
+                  itemBuilder: (context, index) {
+                    final friendData = statsList[index];
+                    final friendProfile = friendData['friend']?.profile;
+                    final String name = friendProfile?.name ?? 'Unknown User';
+                    final String imageUrl = friendProfile?.profileImageUrl ?? '';
+                    final String statValue = friendData[displayValue]?.toString() ?? '--';
+                    final String statLabel = options[displayValue] ?? displayValue;
+
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: colorScheme.surface,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        clipBehavior: Clip.antiAlias,
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          leading: CircleAvatar(
+                            radius: 22,
+                            backgroundColor: colorScheme.tertiaryContainer,
+                            foregroundImage: imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
+                            child: (imageUrl.isEmpty || name == 'Unknown User')
+                                ? Icon(Icons.person_outline, size: 20, color: colorScheme.onTertiaryContainer)
+                                : Text(
+                                    name.isNotEmpty ? name[0].toUpperCase() : '?',
+                                    style: TextStyle(color: colorScheme.onTertiaryContainer, fontWeight: FontWeight.bold),
+                                  ),
+                          ),
+                          title: Text(
+                            name,
+                            style: textTheme.titleMedium,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          subtitle: Text(
+                            statLabel,
+                            style: textTheme.bodySmall?.copyWith(color: colorScheme.onSurfaceVariant),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          trailing: Text(
+                            statValue,
+                            style: textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: colorScheme.primary,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+            ],
           ),
         );
       },
-      loading: () => Center(child: CircularProgressIndicator()),
-      error: (error, _) => ErrorScreen(
-        errorMsg: "Can't get friends",
-        provider: habitFriendsProvider(habitId)
-      )
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stackTrace) {
+        debugPrint("Error loading friends tab: $error\n$stackTrace");
+        return ErrorScreen(
+          errorMsg: "Can't load friend stats",
+          provider: habitFriendsProvider(habitId),
+        );
+      }
     );
   }
 }
