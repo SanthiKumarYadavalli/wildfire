@@ -141,10 +141,7 @@ Future<bool> _requestStoragePermission() async {
       if (Platform.isAndroid) {
         // Use the downloads directory which might have different permissions
         dir = await getExternalStorageDirectory();
-        if (dir == null) {
-          // Fall back to internal storage
-          dir = await getApplicationDocumentsDirectory();
-        }
+        dir ??= await getApplicationDocumentsDirectory();
       } else {
         dir = await getApplicationDocumentsDirectory();
       }
@@ -248,10 +245,10 @@ class UpdatePage extends StatefulWidget {
   final String downloadUrl;
   
   const UpdatePage({
-    Key? key, 
+    super.key, 
     required this.appUpdater,
     required this.downloadUrl,
-  }) : super(key: key);
+  });
   
   @override
   State<UpdatePage> createState() => _UpdatePageState();

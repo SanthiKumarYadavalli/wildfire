@@ -36,6 +36,25 @@ class FriendsTab extends ConsumerWidget {
       'streak': 'Streak',
     };
 
+    // Helper to get medal icons for top ranks
+    Widget getRankIndicator(int rank, BuildContext context) {
+      final colorScheme = Theme.of(context).colorScheme;
+      switch (rank) {
+        case 1:
+          return Icon(Icons.emoji_events, color: Colors.amber.shade700, size: 26);
+        case 2:
+          return Icon(Icons.emoji_events, color: Colors.grey.shade500, size: 24);
+        default:
+          return Text(
+            '$rank',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                  fontWeight: FontWeight.bold,
+                ),
+          );
+      }
+    }
+
     return friendStats.when(
       data: (statsList) {
         return RefreshIndicator(
@@ -54,7 +73,7 @@ class FriendsTab extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Friends' Progress",
+                        "Leaderboard", // Changed Title
                         style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(height: 16),
@@ -116,10 +135,10 @@ class FriendsTab extends ConsumerWidget {
                   ),
                 )
               else
-                SliverList.separated(
+                SliverList.builder(
                   itemCount: statsList.length,
-                  separatorBuilder: (_, __) => const Divider(height: 1, indent: 16, endIndent: 16),
                   itemBuilder: (context, index) {
+                    final rank = index + 1;
                     final friendData = statsList[index];
                     final friendProfile = friendData['friend']?.profile;
                     final String name = friendProfile?.name ?? 'Unknown User';
@@ -127,46 +146,69 @@ class FriendsTab extends ConsumerWidget {
                     final String statValue = friendData[displayValue]?.toString() ?? '--';
                     final String statLabel = options[displayValue] ?? displayValue;
 
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: colorScheme.surface,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        clipBehavior: Clip.antiAlias,
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                          leading: CircleAvatar(
-                            radius: 22,
-                            backgroundColor: colorScheme.tertiaryContainer,
-                            foregroundImage: imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
-                            child: (imageUrl.isEmpty || name == 'Unknown User')
-                                ? Icon(Icons.person_outline, size: 20, color: colorScheme.onTertiaryContainer)
-                                : Text(
-                                    name.isNotEmpty ? name[0].toUpperCase() : '?',
-                                    style: TextStyle(color: colorScheme.onTertiaryContainer, fontWeight: FontWeight.bold),
-                                  ),
-                          ),
-                          title: Text(
-                            name,
-                            style: textTheme.titleMedium,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          subtitle: Text(
-                            statLabel,
-                            style: textTheme.bodySmall?.copyWith(color: colorScheme.onSurfaceVariant),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          trailing: Text(
-                            statValue,
-                            style: textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: colorScheme.primary,
-                              letterSpacing: 0.5,
+                    Color itemBackgroundColor;
+                    Color? itemForegroundColor = colorScheme.onSurface;
+
+                    if (rank == 1) {
+                      itemBackgroundColor = colorScheme.primaryContainer.withValues(alpha: 0.6);
+                      itemForegroundColor = colorScheme.onPrimaryContainer;
+                    } else if (rank == 2) {
+                      itemBackgroundColor = colorScheme.secondaryContainer.withValues(alpha: 0.6);
+                       itemForegroundColor = colorScheme.onSecondaryContainer;
+                    } else {
+                      itemBackgroundColor = colorScheme.surface;
+                       itemForegroundColor = colorScheme.onSurfaceVariant;
+                    }
+
+                    return Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: itemBackgroundColor,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      clipBehavior: Clip.antiAlias,
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        leading: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 36,
+                              alignment: Alignment.center,
+                              child: getRankIndicator(rank, context),
                             ),
+                            const SizedBox(width: 8),
+                            CircleAvatar(
+                              radius: 22,
+                              backgroundColor: colorScheme.inverseSurface,
+                              foregroundImage: imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
+                              child: (imageUrl.isEmpty || name == 'Unknown User')
+                                  ? Icon(Icons.person_outline, size: 20, color: colorScheme.surface)
+                                  : Text(
+                                      name.isNotEmpty ? name[0].toUpperCase() : '?',
+                                      style: TextStyle(color: colorScheme.surface, fontWeight: FontWeight.bold),
+                                    ),
+                            ),
+                          ],
+                        ),
+                        title: Text(
+                          name,
+                          style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600, color: itemForegroundColor),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        subtitle: Text(
+                          statLabel,
+                          style: textTheme.bodySmall?.copyWith(color: itemForegroundColor.withValues(alpha: 0.8)),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        trailing: Text(
+                          statValue,
+                          style: textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: rank <= 2 ? itemForegroundColor : colorScheme.primary,
+                            letterSpacing: 0.5,
                           ),
                         ),
                       ),
