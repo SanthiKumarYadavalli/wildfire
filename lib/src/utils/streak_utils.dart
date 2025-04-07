@@ -58,3 +58,6 @@ Map<String, int> getNumCompletions(Map<String, int> dates) {
   }
   return numCompletions;
 }
+
+bool isLeapYear(int year) =>
+    (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));

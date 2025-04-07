@@ -168,7 +168,7 @@ class FriendsTab extends ConsumerWidget {
                       ),
                       clipBehavior: Clip.antiAlias,
                       child: ListTile(
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                         leading: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -193,7 +193,7 @@ class FriendsTab extends ConsumerWidget {
                         ),
                         title: Text(
                           name,
-                          style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600, color: itemForegroundColor),
+                          style: textTheme.titleMedium?.copyWith(color: itemForegroundColor),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),

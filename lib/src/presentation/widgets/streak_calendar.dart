@@ -43,6 +43,16 @@ class StreakCalendar extends ConsumerWidget {
             color: Theme.of(context).colorScheme.primary,
             shape: BoxShape.circle),
         selectedTextStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+        weekendDecoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+          shape: BoxShape.circle,
+        ),
+        weekendTextStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
+        defaultDecoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+          shape: BoxShape.circle,
+        ),
+        defaultTextStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
       ),
     );
   }

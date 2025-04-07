@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wildfire/src/data/models/habit_model.dart';
+import 'package:wildfire/src/presentation/widgets/completion_tiles.dart';
 import 'package:wildfire/src/presentation/widgets/streak_calendar.dart';
-import 'package:wildfire/src/utils/streak_utils.dart';
+import 'package:wildfire/src/presentation/widgets/streak_cards.dart';
 
 class HabitStatistics extends StatelessWidget {
   const HabitStatistics({super.key, required this.habit});
@@ -9,102 +10,76 @@ class HabitStatistics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final (currentStreak, maxStreak) = getCurrAndMaxStreaks(habit.dates);
-    final numCompletions = getNumCompletions(habit.dates);
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
     return SingleChildScrollView(
-      child: Container(
-        padding: const EdgeInsets.all(20),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              children: [
-                Text(habit.title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                Text(habit.description),
-              ],
+            // --- Habit Info ---
+            Center(
+              child: Column(
+                 children: [
+                   Text(
+                     habit.title,
+                     style: textTheme.headlineMedium?.copyWith(
+                       color: colorScheme.onSurface,
+                     ),
+                     textAlign: TextAlign.center,
+                   ),
+                    const SizedBox(height: 8),
+                    Text(
+                      habit.description,
+                      style: textTheme.bodyLarge?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                 ],
+               ),
             ),
-            SizedBox(height: 20),
-            Divider(),
-            SizedBox(height: 20),
-            Text("Calendar", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            SizedBox(height: 10),
+            const SizedBox(height: 24),
+            const Divider(),
+            const SizedBox(height: 24),
+
+            Text(
+              "Calendar",
+              style: textTheme.titleLarge?.copyWith(
+                color: colorScheme.onSurface,
+              ),
+            ),
+            const SizedBox(height: 12),
             StreakCalendar(habit: habit),
-            SizedBox(height: 20),
-            Text("Streaks", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child: Card( 
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          Text('Current'),
-                          Text(
-                            currentStreak.toString(),
-                            style: TextStyle(
-                              fontSize: Theme.of(context).textTheme.displaySmall!.fontSize,
-                              fontWeight: Theme.of(context).textTheme.displaySmall!.fontWeight,
-                              color: Theme.of(context).textTheme.displaySmall!.color
-                            ),
-                          )
-                        ]
-                      ),
-                    )
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          Text('Best'),
-                          Text(
-                            maxStreak.toString(),
-                            style: TextStyle(
-                              fontSize: Theme.of(context).textTheme.displaySmall!.fontSize,
-                              fontWeight: Theme.of(context).textTheme.displaySmall!.fontWeight,
-                              color: Theme.of(context).textTheme.displaySmall!.color
-                            ),
-                          )
-                        ]
-                      ),
-                    )
-                  ),
-                )
-              ],
+            const SizedBox(height: 24),
+
+            Text(
+              "Streaks",
+              style: textTheme.titleLarge?.copyWith(
+                color: colorScheme.onSurface,
+              ),
             ),
-            SizedBox(height: 20),
-            Divider(),
-            SizedBox(height: 20),
-            Text("Completions", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            SizedBox(height: 10),
-            ListView(
-              shrinkWrap: true,
-              children: [
-                ListTile(
-                  title: Text("This Week"),
-                  trailing: Text(numCompletions["week"].toString(), style: TextStyle(fontSize: 20)),
-                  subtitle: LinearProgressIndicator(value: numCompletions["week"]! / 7),
-                ),
-                ListTile(
-                  title: Text("This Month"),
-                  trailing: Text(numCompletions["month"].toString(), style: TextStyle(fontSize: 20)),
-                  subtitle: LinearProgressIndicator(value: numCompletions["month"]! / 30),
-                ),
-                ListTile(
-                  title: Text("This Year"),
-                  trailing: Text(numCompletions["year"].toString(), style: TextStyle(fontSize: 20)),
-                  subtitle: LinearProgressIndicator(value: numCompletions["year"]! / 365),
-                ),
-              ],
-            )
-          ]
-        )
+            const SizedBox(height: 12),
+
+            StreakCards(habit: habit),
+            const SizedBox(height: 24),
+            const Divider(),
+            const SizedBox(height: 24),
+
+            Text(
+              "Completions",
+              style: textTheme.titleLarge?.copyWith(
+                color: colorScheme.onSurface,
+              ),
+            ),
+            const SizedBox(height: 12),
+            CompletionTiles(habit: habit),
+            const SizedBox(height: 16),
+          ],
+        ),
       ),
     );
   }
