@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:wildfire/src/presentation/widgets/delete_habit_dialog.dart';
-import 'package:wildfire/src/presentation/widgets/edit_habit_form.dart';
-import 'package:wildfire/src/presentation/widgets/friends_tab.dart';
-import 'package:wildfire/src/presentation/widgets/habit_statistics.dart';
-import 'package:wildfire/src/presentation/widgets/leave_habit_dialog.dart';
+import 'package:wildfire/src/presentation/widgets/habit_screen/delete_habit_dialog.dart';
+import 'package:wildfire/src/presentation/widgets/habit_screen/edit_habit_form.dart';
+import 'package:wildfire/src/presentation/widgets/habit_screen/friends_tab/friends_tab.dart';
+import 'package:wildfire/src/presentation/widgets/habit_screen/stats_tab/habit_statistics.dart';
+import 'package:wildfire/src/presentation/widgets/habit_screen/leave_habit_dialog.dart';
 import 'package:wildfire/src/providers/habit_provider.dart';
 import 'package:wildfire/src/providers/user_provider.dart';
 

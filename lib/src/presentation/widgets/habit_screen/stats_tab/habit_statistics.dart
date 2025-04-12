@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wildfire/src/data/models/habit_model.dart';
-import 'package:wildfire/src/presentation/widgets/completion_tiles.dart';
-import 'package:wildfire/src/presentation/widgets/streak_calendar.dart';
-import 'package:wildfire/src/presentation/widgets/streak_cards.dart';
+import 'package:wildfire/src/presentation/widgets/habit_screen/stats_tab/completion_tiles.dart';
+import 'package:wildfire/src/presentation/widgets/habit_screen/stats_tab/streak_calendar.dart';
+import 'package:wildfire/src/presentation/widgets/habit_screen/stats_tab/streak_cards.dart';
 
 class HabitStatistics extends StatelessWidget {
   const HabitStatistics({super.key, required this.habit});

@@ -119,7 +119,8 @@ class LoadingHabits extends _$LoadingHabits {
 class HabitFriends extends _$HabitFriends {
   @override
   FutureOr<List<Map<String, dynamic>>> build(habitId) async {
-    final friends = await habitRepository.getFriends(habitId);
+    final currUserId = await ref.watch(currUserProvider.future);
+    final friends = await habitRepository.getFriends(habitId, currUserId!.id);
     var friendStats = <Map<String, dynamic>>[];
     for (Friend friend in friends) {
       final currStats = <String, dynamic>{};
@@ -127,6 +128,7 @@ class HabitFriends extends _$HabitFriends {
       final completions = getNumCompletions(friend.dates);
       currStats['friend'] = friend;
       currStats['streak'] = streaks.$1;
+      currStats['best_streak'] = streaks.$2;
       currStats['week'] = completions["week"];
       currStats['month'] = completions["month"];
       currStats['year'] = completions["year"];

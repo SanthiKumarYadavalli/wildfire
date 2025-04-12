@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'habit_model.freezed.dart';
-part 'habit_model.g.dart';
 
 @Freezed(makeCollectionsUnmodifiable: false)
 class Habit with _$Habit {
@@ -12,6 +11,4 @@ class Habit with _$Habit {
     required String createdBy,
     required Map<String, int> dates,
   }) = _Habit;
-
-  factory Habit.fromJson(Map<String, dynamic> json) => _$HabitFromJson(json);
 }

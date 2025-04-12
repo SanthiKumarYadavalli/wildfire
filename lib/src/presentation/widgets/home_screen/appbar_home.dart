@@ -3,7 +3,7 @@ import 'package:calendar_slider/calendar_slider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wildfire/src/presentation/widgets/avatar_button.dart';
+import 'package:wildfire/src/presentation/widgets/home_screen/avatar_button.dart';
 import 'package:wildfire/src/providers/date_provider.dart';
 
 part 'appbar_home.g.dart'; 

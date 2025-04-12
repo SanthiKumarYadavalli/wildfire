@@ -46,7 +46,7 @@ class HabitRepository {
     await _habitService.unlinkFriend(userId, habitId);
   }
 
-  Future<List<Friend>> getFriends(String habitId) async {
+  Future<List<Friend>> getFriends(String habitId, String currUserId) async {
     final friendsData = await _habitService.getFriends(habitId);
     return friendsData.map((friend) {
       return Friend(
@@ -57,7 +57,8 @@ class HabitRepository {
           email: friend['user']['email'],
           profileImageUrl: friend['user']['profilePic'],
         ),
-        dates: (friend['dates']).cast<String, int>()
+        dates: (friend['dates']).cast<String, int>(),
+        isUser: friend['user']['_id'] == currUserId
       );
     }).toList();
   }

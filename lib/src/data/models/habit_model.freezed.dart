@@ -14,10 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-Habit _$HabitFromJson(Map<String, dynamic> json) {
-  return _Habit.fromJson(json);
-}
-
 /// @nodoc
 mixin _$Habit {
   String get id => throw _privateConstructorUsedError;
@@ -25,9 +21,6 @@ mixin _$Habit {
   String get description => throw _privateConstructorUsedError;
   String get createdBy => throw _privateConstructorUsedError;
   Map<String, int> get dates => throw _privateConstructorUsedError;
-
-  /// Serializes this Habit to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of Habit
   /// with the given fields replaced by the non-null parameter values.
@@ -154,7 +147,7 @@ class __$$HabitImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$HabitImpl implements _Habit {
   const _$HabitImpl(
       {required this.id,
@@ -162,9 +155,6 @@ class _$HabitImpl implements _Habit {
       required this.description,
       required this.createdBy,
       required this.dates});
-
-  factory _$HabitImpl.fromJson(Map<String, dynamic> json) =>
-      _$$HabitImplFromJson(json);
 
   @override
   final String id;
@@ -196,7 +186,6 @@ class _$HabitImpl implements _Habit {
             const DeepCollectionEquality().equals(other.dates, dates));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, title, description,
       createdBy, const DeepCollectionEquality().hash(dates));
@@ -208,13 +197,6 @@ class _$HabitImpl implements _Habit {
   @pragma('vm:prefer-inline')
   _$$HabitImplCopyWith<_$HabitImpl> get copyWith =>
       __$$HabitImplCopyWithImpl<_$HabitImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$HabitImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _Habit implements Habit {
@@ -224,8 +206,6 @@ abstract class _Habit implements Habit {
       required final String description,
       required final String createdBy,
       required final Map<String, int> dates}) = _$HabitImpl;
-
-  factory _Habit.fromJson(Map<String, dynamic> json) = _$HabitImpl.fromJson;
 
   @override
   String get id;

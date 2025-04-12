@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wildfire/src/presentation/screens/create_habit.dart';
+import 'package:wildfire/src/presentation/widgets/home_screen/create_habit.dart';
 import 'package:wildfire/src/presentation/screens/error.dart';
-import 'package:wildfire/src/presentation/widgets/appbar_home.dart';
-import 'package:wildfire/src/presentation/widgets/habits_list.dart';
+import 'package:wildfire/src/presentation/widgets/home_screen/appbar_home.dart';
+import 'package:wildfire/src/presentation/widgets/home_screen/habits_list.dart';
 import 'package:wildfire/src/providers/habit_provider.dart';
 import 'package:wildfire/src/utils/updater.dart';
 

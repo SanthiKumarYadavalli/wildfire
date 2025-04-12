@@ -14,17 +14,11 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-Friend _$FriendFromJson(Map<String, dynamic> json) {
-  return _Friend.fromJson(json);
-}
-
 /// @nodoc
 mixin _$Friend {
   User get profile => throw _privateConstructorUsedError;
   Map<String, int> get dates => throw _privateConstructorUsedError;
-
-  /// Serializes this Friend to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  bool get isUser => throw _privateConstructorUsedError;
 
   /// Create a copy of Friend
   /// with the given fields replaced by the non-null parameter values.
@@ -37,7 +31,7 @@ abstract class $FriendCopyWith<$Res> {
   factory $FriendCopyWith(Friend value, $Res Function(Friend) then) =
       _$FriendCopyWithImpl<$Res, Friend>;
   @useResult
-  $Res call({User profile, Map<String, int> dates});
+  $Res call({User profile, Map<String, int> dates, bool isUser});
 
   $UserCopyWith<$Res> get profile;
 }
@@ -59,6 +53,7 @@ class _$FriendCopyWithImpl<$Res, $Val extends Friend>
   $Res call({
     Object? profile = null,
     Object? dates = null,
+    Object? isUser = null,
   }) {
     return _then(_value.copyWith(
       profile: null == profile
@@ -69,6 +64,10 @@ class _$FriendCopyWithImpl<$Res, $Val extends Friend>
           ? _value.dates
           : dates // ignore: cast_nullable_to_non_nullable
               as Map<String, int>,
+      isUser: null == isUser
+          ? _value.isUser
+          : isUser // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -90,7 +89,7 @@ abstract class _$$FriendImplCopyWith<$Res> implements $FriendCopyWith<$Res> {
       __$$FriendImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({User profile, Map<String, int> dates});
+  $Res call({User profile, Map<String, int> dates, bool isUser});
 
   @override
   $UserCopyWith<$Res> get profile;
@@ -111,6 +110,7 @@ class __$$FriendImplCopyWithImpl<$Res>
   $Res call({
     Object? profile = null,
     Object? dates = null,
+    Object? isUser = null,
   }) {
     return _then(_$FriendImpl(
       profile: null == profile
@@ -121,19 +121,22 @@ class __$$FriendImplCopyWithImpl<$Res>
           ? _value._dates
           : dates // ignore: cast_nullable_to_non_nullable
               as Map<String, int>,
+      isUser: null == isUser
+          ? _value.isUser
+          : isUser // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$FriendImpl implements _Friend {
   const _$FriendImpl(
-      {required this.profile, required final Map<String, int> dates})
+      {required this.profile,
+      required final Map<String, int> dates,
+      this.isUser = false})
       : _dates = dates;
-
-  factory _$FriendImpl.fromJson(Map<String, dynamic> json) =>
-      _$$FriendImplFromJson(json);
 
   @override
   final User profile;
@@ -146,8 +149,12 @@ class _$FriendImpl implements _Friend {
   }
 
   @override
+  @JsonKey()
+  final bool isUser;
+
+  @override
   String toString() {
-    return 'Friend(profile: $profile, dates: $dates)';
+    return 'Friend(profile: $profile, dates: $dates, isUser: $isUser)';
   }
 
   @override
@@ -156,13 +163,13 @@ class _$FriendImpl implements _Friend {
         (other.runtimeType == runtimeType &&
             other is _$FriendImpl &&
             (identical(other.profile, profile) || other.profile == profile) &&
-            const DeepCollectionEquality().equals(other._dates, _dates));
+            const DeepCollectionEquality().equals(other._dates, _dates) &&
+            (identical(other.isUser, isUser) || other.isUser == isUser));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, profile, const DeepCollectionEquality().hash(_dates));
+  int get hashCode => Object.hash(runtimeType, profile,
+      const DeepCollectionEquality().hash(_dates), isUser);
 
   /// Create a copy of Friend
   /// with the given fields replaced by the non-null parameter values.
@@ -171,26 +178,20 @@ class _$FriendImpl implements _Friend {
   @pragma('vm:prefer-inline')
   _$$FriendImplCopyWith<_$FriendImpl> get copyWith =>
       __$$FriendImplCopyWithImpl<_$FriendImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$FriendImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _Friend implements Friend {
   const factory _Friend(
       {required final User profile,
-      required final Map<String, int> dates}) = _$FriendImpl;
-
-  factory _Friend.fromJson(Map<String, dynamic> json) = _$FriendImpl.fromJson;
+      required final Map<String, int> dates,
+      final bool isUser}) = _$FriendImpl;
 
   @override
   User get profile;
   @override
   Map<String, int> get dates;
+  @override
+  bool get isUser;
 
   /// Create a copy of Friend
   /// with the given fields replaced by the non-null parameter values.
