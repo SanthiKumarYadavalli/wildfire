@@ -1,1 +1,0 @@
-C:\Users\santh\Develop\wildfire\build\app\intermediates\cxx\RelWithDebInfo\6v522i3m\obj\arm64-v8a

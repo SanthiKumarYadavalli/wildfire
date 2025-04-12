@@ -19,4 +19,8 @@ class AuthRepository {
   Future<void> resetPassword(String token, String password) async {
     await authService.resetPassword(token, password);
   }
+
+  Future<void> verifyToken(String token) async {
+    await authService.verifyToken(token);
+  }
 }

@@ -42,7 +42,7 @@ class HomeScreen extends ConsumerWidget {
           },
           loading: () => CircularProgressIndicator(),
           error: (error, stackTrace) => ErrorScreen(
-            errorMsg: "Can't load habits",
+            errorMsg: error.toString(),
             provider: userHabitsProvider,
           )
         )

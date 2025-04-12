@@ -56,4 +56,16 @@ class AuthService {
       throw Exception("Failed to reset password");
     }
   }
+
+  Future<void> verifyToken(String token) async {
+    final response = await get(
+      Uri.parse("${Env.apiUrl}/user/verify-token/"),
+      headers: {
+        "Authorization": "Bearer $token"
+      }
+    );
+    if (response.statusCode != 200) {
+      throw Exception("Failed to verify token");
+    }
+  }
 }

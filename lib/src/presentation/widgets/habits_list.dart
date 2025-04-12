@@ -80,7 +80,7 @@ class HabitsList extends ConsumerWidget {
       child: (data.isEmpty)
         ? buildEmptyState()
         : ListView.builder(
-            padding: const EdgeInsets.only(top: 8, bottom: 88), // Keep bottom padding for potential FAB/nav bar
+            padding: const EdgeInsets.only(top: 8, bottom: 88),
             itemCount: data.length,
             itemBuilder: (context, index) {
               final habit = data[index];
@@ -88,7 +88,7 @@ class HabitsList extends ConsumerWidget {
               final isLoading = loadingHabits.contains(habit.id);
 
               return Card(
-                elevation: isLoading ? 0 : 1, // Subtle elevation, none when loading
+                elevation: isLoading ? 0 : 1,
                 color: isLoading
                     ? colorScheme.surfaceContainerHighest.withValues(alpha: 0.5)
                     : colorScheme.surface,
@@ -101,7 +101,7 @@ class HabitsList extends ConsumerWidget {
                     width: 2,
                   ),
                 ),
-                clipBehavior: Clip.antiAlias, // Ensures content respects border radius
+                clipBehavior: Clip.antiAlias,
                 child: Stack( // Stack for potential loading overlay
                   children: [
                     ListTile(
@@ -111,6 +111,12 @@ class HabitsList extends ConsumerWidget {
                       title: Text(
                         habit.title,
                         style: textTheme.titleMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      subtitle: Text(
+                        habit.description,
+                        style: textTheme.bodyMedium?.copyWith(color: colorScheme.outline),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),

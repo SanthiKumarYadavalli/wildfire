@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wildfire/src/data/repositories/auth_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,12 +7,33 @@ part 'auth_provider.g.dart';
 
 final AuthRepository authRepository = AuthRepository();
 
+
+@riverpod
+Future<bool> verifyToken(Ref ref, String token) async {
+  try {
+    await authRepository.verifyToken(token);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 @riverpod
 class Login extends _$Login {
   @override
   FutureOr<String> build() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString("token") ?? "";
+    final String? token = prefs.getString("token");
+    if (token == null) {
+      return "";
+    }
+    final isValid = await ref.watch(verifyTokenProvider(token).future);
+    if (isValid) {
+      return token;
+    } else {
+      prefs.remove("token");
+      return "";
+    }
   }
 
   Future<void> login(Map<String, dynamic> formData) async {

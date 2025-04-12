@@ -187,7 +187,7 @@ final loadingHabitsProvider =
 );
 
 typedef _$LoadingHabits = AutoDisposeNotifier<Set<String>>;
-String _$habitFriendsHash() => r'e22d142f8411dd532ea3ef03aba53490ee840c38';
+String _$habitFriendsHash() => r'400ec77d6a801d4e5e6ed05df2bfa2970d3deccc';
 
 abstract class _$HabitFriends
     extends BuildlessAutoDisposeAsyncNotifier<List<Map<String, dynamic>>> {

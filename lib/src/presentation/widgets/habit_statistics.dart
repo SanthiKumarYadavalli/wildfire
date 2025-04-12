@@ -20,32 +20,7 @@ class HabitStatistics extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // --- Habit Info ---
-            Center(
-              child: Column(
-                 children: [
-                   Text(
-                     habit.title,
-                     style: textTheme.headlineMedium?.copyWith(
-                       color: colorScheme.onSurface,
-                     ),
-                     textAlign: TextAlign.center,
-                   ),
-                    const SizedBox(height: 8),
-                    Text(
-                      habit.description,
-                      style: textTheme.bodyLarge?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                 ],
-               ),
-            ),
             const SizedBox(height: 24),
-            const Divider(),
-            const SizedBox(height: 24),
-
             Text(
               "Calendar",
               style: textTheme.titleLarge?.copyWith(

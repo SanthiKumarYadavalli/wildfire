@@ -1,2 +1,0 @@
-C:/Users/santh/Develop/wildfire/android/app/.cxx/RelWithDebInfo/6v522i3m/armeabi-v7a/CMakeFiles/edit_cache.dir
-C:/Users/santh/Develop/wildfire/android/app/.cxx/RelWithDebInfo/6v522i3m/armeabi-v7a/CMakeFiles/rebuild_cache.dir

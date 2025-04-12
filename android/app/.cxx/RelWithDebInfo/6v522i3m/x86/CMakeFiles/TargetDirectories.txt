@@ -1,2 +1,0 @@
-C:/Users/santh/Develop/wildfire/android/app/.cxx/RelWithDebInfo/6v522i3m/x86/CMakeFiles/edit_cache.dir
-C:/Users/santh/Develop/wildfire/android/app/.cxx/RelWithDebInfo/6v522i3m/x86/CMakeFiles/rebuild_cache.dir
