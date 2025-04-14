@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wildfire/src/presentation/widgets/emoji_picker.dart';
+import 'package:wildfire/src/providers/emoji_provider.dart';
 import 'package:wildfire/src/providers/habit_provider.dart';
 
 class CreateHabitScreen extends ConsumerWidget {
@@ -11,6 +13,7 @@ class CreateHabitScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final habits = ref.watch(userHabitsProvider);
+    final emoji = ref.watch(emojiProvider);
     ref.listen(userHabitsProvider, (_, state) {
       if (state is AsyncError) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -52,7 +55,48 @@ class CreateHabitScreen extends ConsumerWidget {
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 12),
+            FormField<String>(
+              builder: (FormFieldState<String> field) {
+                return InputDecorator(
+                  decoration: InputDecoration(
+                    labelText: "Pick an icon emoji",
+                    errorText: field.errorText,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                    ),
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return MyEmojiPicker(onSelected: (emoji) {
+                            ref.read(emojiProvider.notifier).setEmoji(emoji);
+                          });
+                        },
+                      );
+                    },
+                    child: Container(
+                      height: 50,
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        children: [
+                          Text(emoji, style: TextStyle(fontSize: 30)),
+                          Spacer(),
+                          Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.grey,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+            SizedBox(height: 20),
             Align(
               alignment: Alignment.centerRight,
               child: ElevatedButton(
@@ -64,6 +108,7 @@ class CreateHabitScreen extends ConsumerWidget {
                   ref.read(userHabitsProvider.notifier).createHabit(
                         _titleController.text,
                         _descriptionController.text,
+                        emoji,
                       );
                 },
                 child: (habits is AsyncLoading)

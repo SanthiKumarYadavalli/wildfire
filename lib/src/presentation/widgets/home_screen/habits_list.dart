@@ -107,7 +107,7 @@ class HabitsList extends ConsumerWidget {
                     ListTile(
                       enabled: !isLoading,
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      leading: Icon(Icons.favorite, color: colorScheme.secondary),
+                      leading: Text(habit.emoji, style: TextStyle(fontSize: 20)),
                       title: Text(
                         habit.title,
                         style: textTheme.titleMedium,

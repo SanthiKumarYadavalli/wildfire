@@ -8,6 +8,7 @@ class Habit with _$Habit {
     required String id,
     required String title,
     required String description,
+    required String emoji,
     required String createdBy,
     required Map<String, int> dates,
   }) = _Habit;

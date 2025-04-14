@@ -14,6 +14,7 @@ class HabitRepository {
         title: habit['habit']['title'],
         description: habit['habit']['description'],
         createdBy: habit['habit']['createdBy'],
+        emoji: habit['habit']['emoji'] ?? "😢",
         dates: (habit['dates']).cast<String, int>()
       );
     }).toList();
@@ -26,6 +27,7 @@ class HabitRepository {
       title: habitData['title'],
       description: habitData['description'],
       createdBy: habitData['createdBy'],
+      emoji: habitData['emoji'] ?? "😢",
       dates: {}
     );
   }
@@ -70,6 +72,7 @@ class HabitRepository {
       title: habitData['title'],
       description: habitData['description'],
       createdBy: habitData['createdBy']["name"],
+      emoji: habitData['emoji'] ?? "😢",
       dates: {}
     );
   }

@@ -26,7 +26,7 @@ class UserHabits extends _$UserHabits {
     return [];
   }
 
-  void createHabit(title, description) async {
+  void createHabit(title, description, emoji) async {
     final token = ref.read(loginProvider).requireValue;
     final prevState = state.value;
     state = AsyncValue.loading();
@@ -34,6 +34,7 @@ class UserHabits extends _$UserHabits {
       final newHabit = await habitRepository.createHabit(token, {
         'title': title,
         'description': description,
+        'emoji': emoji,
       });
       return [...prevState!, newHabit];
     });
@@ -81,7 +82,7 @@ class UserHabits extends _$UserHabits {
     });
   }
 
-  void updateHabit(String habitId, data) async {
+  void updateHabit(String habitId, Map<String, dynamic> data) async {
     final prevState = state.value;
     state = AsyncValue.loading();
     state = await AsyncValue.guard(() async {
@@ -91,6 +92,7 @@ class UserHabits extends _$UserHabits {
           return habit.copyWith(
             title: updatedHabit['title'],
             description: updatedHabit['description'],
+            emoji: updatedHabit['emoji'],
           );
         }
         return habit;

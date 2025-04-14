@@ -19,6 +19,7 @@ mixin _$Habit {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
+  String get emoji => throw _privateConstructorUsedError;
   String get createdBy => throw _privateConstructorUsedError;
   Map<String, int> get dates => throw _privateConstructorUsedError;
 
@@ -37,6 +38,7 @@ abstract class $HabitCopyWith<$Res> {
       {String id,
       String title,
       String description,
+      String emoji,
       String createdBy,
       Map<String, int> dates});
 }
@@ -59,6 +61,7 @@ class _$HabitCopyWithImpl<$Res, $Val extends Habit>
     Object? id = null,
     Object? title = null,
     Object? description = null,
+    Object? emoji = null,
     Object? createdBy = null,
     Object? dates = null,
   }) {
@@ -74,6 +77,10 @@ class _$HabitCopyWithImpl<$Res, $Val extends Habit>
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      emoji: null == emoji
+          ? _value.emoji
+          : emoji // ignore: cast_nullable_to_non_nullable
               as String,
       createdBy: null == createdBy
           ? _value.createdBy
@@ -98,6 +105,7 @@ abstract class _$$HabitImplCopyWith<$Res> implements $HabitCopyWith<$Res> {
       {String id,
       String title,
       String description,
+      String emoji,
       String createdBy,
       Map<String, int> dates});
 }
@@ -118,6 +126,7 @@ class __$$HabitImplCopyWithImpl<$Res>
     Object? id = null,
     Object? title = null,
     Object? description = null,
+    Object? emoji = null,
     Object? createdBy = null,
     Object? dates = null,
   }) {
@@ -133,6 +142,10 @@ class __$$HabitImplCopyWithImpl<$Res>
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      emoji: null == emoji
+          ? _value.emoji
+          : emoji // ignore: cast_nullable_to_non_nullable
               as String,
       createdBy: null == createdBy
           ? _value.createdBy
@@ -153,6 +166,7 @@ class _$HabitImpl implements _Habit {
       {required this.id,
       required this.title,
       required this.description,
+      required this.emoji,
       required this.createdBy,
       required this.dates});
 
@@ -163,13 +177,15 @@ class _$HabitImpl implements _Habit {
   @override
   final String description;
   @override
+  final String emoji;
+  @override
   final String createdBy;
   @override
   final Map<String, int> dates;
 
   @override
   String toString() {
-    return 'Habit(id: $id, title: $title, description: $description, createdBy: $createdBy, dates: $dates)';
+    return 'Habit(id: $id, title: $title, description: $description, emoji: $emoji, createdBy: $createdBy, dates: $dates)';
   }
 
   @override
@@ -181,13 +197,14 @@ class _$HabitImpl implements _Habit {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.emoji, emoji) || other.emoji == emoji) &&
             (identical(other.createdBy, createdBy) ||
                 other.createdBy == createdBy) &&
             const DeepCollectionEquality().equals(other.dates, dates));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, description,
+  int get hashCode => Object.hash(runtimeType, id, title, description, emoji,
       createdBy, const DeepCollectionEquality().hash(dates));
 
   /// Create a copy of Habit
@@ -204,6 +221,7 @@ abstract class _Habit implements Habit {
       {required final String id,
       required final String title,
       required final String description,
+      required final String emoji,
       required final String createdBy,
       required final Map<String, int> dates}) = _$HabitImpl;
 
@@ -213,6 +231,8 @@ abstract class _Habit implements Habit {
   String get title;
   @override
   String get description;
+  @override
+  String get emoji;
   @override
   String get createdBy;
   @override

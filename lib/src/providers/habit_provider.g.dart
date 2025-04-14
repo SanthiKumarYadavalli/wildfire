@@ -156,7 +156,7 @@ class _GetHabitProviderElement extends AutoDisposeFutureProviderElement<Habit>
   String get habitId => (origin as GetHabitProvider).habitId;
 }
 
-String _$userHabitsHash() => r'6c201ad0f4d0116fd413289b58d964906fa8f2d7';
+String _$userHabitsHash() => r'976711be61303201570e3f127d2d1b43946d37c7';
 
 /// See also [UserHabits].
 @ProviderFor(UserHabits)
